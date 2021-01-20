@@ -123,6 +123,46 @@
           }
         }
       }
+    },
+    "zmat-widgets": {
+      "projectType": "library",
+      "root": "projects/zmat-widgets",
+      "sourceRoot": "projects/zmat-widgets/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/zmat-widgets/tsconfig.lib.json",
+            "project": "projects/zmat-widgets/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/zmat-widgets/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/zmat-widgets/src/test.ts",
+            "tsConfig": "projects/zmat-widgets/tsconfig.spec.json",
+            "karmaConfig": "projects/zmat-widgets/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/zmat-widgets/tsconfig.lib.json",
+              "projects/zmat-widgets/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }},
   "defaultProject": "zmat-showcase"
 }

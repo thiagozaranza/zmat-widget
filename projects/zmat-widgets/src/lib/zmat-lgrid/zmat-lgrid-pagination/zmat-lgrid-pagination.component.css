@@ -1,0 +1,13 @@
+.container {
+    display: flex;
+    flex-direction: row;    
+}
+
+.item {
+    
+}
+
+.pages {
+    padding: 12px 20px;
+    color: gray;
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/zmat-widgets",
+  "lib": {
+    "entryFile": "src/public-api.ts",
+    "umdModuleIds": {
+      "moment": "moment",
+      "chart.js": "chart.js",
+      "ol/Map": "OL_Map",
+      "ol/Overlay": "OL_Overlay",
+      "ol/source/XYZ": "OL_XYZ",
+      "ol/View": "OL_View",
+      "ol/source/OSM": "OL_OSM",
+      "ol/format/KML.js": "OL_KML",
+      "ol/control.js": "OL_control",
+      "ol/Feature": "OL_Feature",
+      "ol/geom/Point.js": "OL_Point",
+      "ol/layer": "OL_layer", 
+      "ol/source/Vector.js": "OL_VectorSource",
+      "ol/style.js": "OL_style",
+      "ol/proj.js": "OL_proj"
+    }  
+  }
+}

@@ -1,0 +1,22 @@
+table {
+    width: 100%;
+    border-spacing: 0px;
+}
+
+th {
+    text-align: left;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-color: lightgray; 
+}
+
+.actions {
+    display: flex;
+    flex-direction: row;    
+}
+
+td {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-color: lightgray;    
+}

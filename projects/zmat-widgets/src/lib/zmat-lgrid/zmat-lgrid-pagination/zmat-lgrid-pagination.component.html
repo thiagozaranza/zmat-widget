@@ -1,0 +1,21 @@
+<!-- <div class="mat-paginator-page-size ng-star-inserted">
+    <div class="mat-paginator-page-size-label">Items per page:</div>
+</div> -->
+<div class="container">
+    <div class="item pages">{{ from }} a {{ to }} de {{ total }}</div>
+    <div class="item fill-space"></div>
+    <div class="item">
+        <button (click)="firstPage()" mat-icon-button color="primary" aria-label="Primeira página">
+            <mat-icon>first_page</mat-icon>
+        </button>
+        <button (click)="previousPage()" mat-icon-button color="primary" aria-label="Página anterior">
+            <mat-icon>chevron_left</mat-icon>
+        </button>
+        <button (click)="nextPage()" mat-icon-button color="primary" aria-label="Próxima página">
+            <mat-icon>chevron_right</mat-icon>
+        </button>
+        <button (click)="lastPage()" mat-icon-button color="primary" aria-label="ùltima página">
+            <mat-icon>last_page</mat-icon>
+        </button>
+    </div>
+</div>

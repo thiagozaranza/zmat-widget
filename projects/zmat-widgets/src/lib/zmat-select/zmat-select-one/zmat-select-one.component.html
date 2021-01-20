@@ -1,0 +1,7 @@
+<mat-form-field>
+    <mat-label>{{schema.label}}</mat-label>
+    <mat-select placeholder="{{schema.placeholder}}" (selectionChange)="itemChanged($event)">
+        <mat-option [value]=""></mat-option>
+        <mat-option *ngFor="let item of data" [value]="schema.getId(item)">{{ item ? schema.getId(item) + ' - ' + schema.getName(item) : ''}}</mat-option>
+    </mat-select>
+</mat-form-field>   
