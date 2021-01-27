@@ -1,6 +1,7 @@
 {
   "name": "zmat-widgets",
-  "version": "0.0.1",
+  "author": "Thiago Zaranza",
+  "version": "1.0.0",
   "peerDependencies": {
     "@angular/common": "^10.2.4",
     "@angular/core": "^10.2.4"
