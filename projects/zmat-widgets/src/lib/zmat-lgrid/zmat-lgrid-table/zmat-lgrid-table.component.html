@@ -1,11 +1,11 @@
 <mat-progress-bar mode="indeterminate" [class.show]="loading" [class.hide]="!loading"></mat-progress-bar>
-<table>      
+<table>
     <tr>
-        <th *ngFor="let item of schema.columns">             
+        <th *ngFor="let item of schema.columns">
             <button *ngIf="item.ordenable" mat-button (click)="orderBy(item)">
-                {{ item.title }} 
-                <mat-icon *ngIf="isDecrescentOrderedByField(item)">arrow_upward</mat-icon>
-                <mat-icon *ngIf="isCrescentOrderedByField(item)">arrow_downward</mat-icon>
+                {{ item.title }}
+                <mat-icon *ngIf="pagination && item.field === pagination.sortColumn && pagination.sortDirection === 'desc'">arrow_upward</mat-icon>
+                <mat-icon *ngIf="pagination && item.field === pagination.sortColumn && pagination.sortDirection === 'asc'">arrow_downward</mat-icon>
             </button>
             <span *ngIf="!item.ordenable">{{ item.title }}</span>
         </th>
@@ -24,4 +24,4 @@
         </td>
     </tr>
 </table>
-<zmat-lgrid-pagination [facade]="facade"></zmat-lgrid-pagination>
+<lib-zmat-lgrid-pagination [schema]="schema" [$pagination]="$pagination" [total]="total" (pageChanged)="pageChanged($event)"></lib-zmat-lgrid-pagination>

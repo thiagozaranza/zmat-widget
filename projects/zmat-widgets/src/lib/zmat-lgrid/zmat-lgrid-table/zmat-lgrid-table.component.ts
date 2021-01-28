@@ -1,11 +1,13 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { GenericFacade } from '../../generic-facade';
-import { Subscription } from 'rxjs';
-import { ZmatLGridSchema, ZmatLGridColumnSchema } from '../zmat-lgrid.schema';
-import { ZmatLgridPagination } from '../zmat-pagination.model';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { IZmatLGridColumnSchema, IZmatLGridSchema, IZmatLgridPagination, ZmatLgridPagination } from '../zmat-lgrid.schema';
+import { map, tap } from 'rxjs/operators';
+
+import { Municipio } from 'src/app/modules/municipio/municipio';
+import { ZmatLgridPaginator } from 'zmat-widgets';
 
 @Component({
-  selector: 'zmat-lgrid-table',
+  selector: 'lib-zmat-lgrid-table',
   templateUrl: './zmat-lgrid-table.component.html',
   styleUrls: ['./zmat-lgrid-table.component.css']
 })
@@ -13,89 +15,66 @@ export class ZmatLGridTableComponent implements OnInit, OnDestroy {
 
   private subscriptions = new Subscription();
 
-  @Input() facade: GenericFacade;
-  @Input() schema: ZmatLGridSchema;
+  @Input() schema: IZmatLGridSchema;
   @Input() data: any[];
-  @Input() enableActions: boolean = true;
+  @Input() enableActions = true;
   @Input() showColumns: string[] = [];
   @Input() showFilters: string[] = [];
 
+  public $pagination = new BehaviorSubject<ZmatLgridPagination>(new ZmatLgridPagination());
   private pagination: ZmatLgridPagination;
-  public loading: boolean = false;
+
+  public loading = false;
+  public total = 0;
 
   constructor() {
-    
+
   }
 
-  ngOnInit() 
+  ngOnInit(): void
   {
-    if (this.showColumns.length)
-      this.schema.columns = this.schema.columns.filter(item => { 
+    if (this.showColumns.length) {
+      this.schema.columns = this.schema.columns.filter(item => {
         return this.showColumns.includes(item.field);
       });
+    }
+
+    this.request(ZmatLgridPagination.build(this.schema.pagination));
+  }
+
+  public request(pagination: ZmatLgridPagination): void {
+
+    this.pagination = pagination;
+    this.loading = true;
 
     this.subscriptions.add(
-      this.facade.meta_data$.subscribe(value => {
-        if (!value) return;
-        this.pagination = value.request.query_params;
-      }))
-    .add(
-      this.facade.loading$.subscribe(value => this.loading = value)
-    );
+      this.schema.service.paginate(pagination, this.schema).pipe(
+          map(response => Municipio.parseResponse(response))
+      ).subscribe(a => {
+        this.data = a.data;
+        this.total = a.total;
+        this.$pagination.next(this.pagination);
+        this.loading = false;
+      }));
   }
 
-  selectItem(obj: any) {
-    this.facade.select(obj.id);
+  pageChanged($event): void {
+    this.pagination.page = $event;
+    this.request(this.pagination);
   }
 
-  orderBy(item: ZmatLGridColumnSchema) 
+  selectItem(obj: any): void {
+    //this.facade.select(obj.id);
+  }
+
+  orderBy(item: IZmatLGridColumnSchema): void
   {
-    if (this.isDecrescentOrderedByField(item))
-      this.pagination = {
-        fetch_list: this.pagination.fetch_list,
-        filter_list: this.pagination.filter_list,
-        with_list: this.pagination.with_list,
-        paginator: {
-          limit: this.pagination.paginator.limit,
-          order_by: null,
-          page: this.pagination.paginator.page
-        }
-      };
-    else if (this.isCrescentOrderedByField(item))  
-      this.pagination = {
-        fetch_list: this.pagination.fetch_list,
-        filter_list: this.pagination.filter_list,
-        with_list: this.pagination.with_list,
-        paginator: {
-          limit: this.pagination.paginator.limit,
-          order_by: item.field + ',desc',
-          page: this.pagination.paginator.page
-        }
-      };
-    else 
-      this.pagination = {
-        fetch_list: this.pagination.fetch_list,
-        filter_list: this.pagination.filter_list,
-        with_list: this.pagination.with_list,
-        paginator: {
-          limit: this.pagination.paginator.limit,
-          order_by: item.field + ',asc',
-          page: this.pagination.paginator.page
-        }
-      };
-
-    this.facade.paginate(this.pagination);
-  } 
-
-  isCrescentOrderedByField(item) {
-    return this.pagination && (this.pagination.paginator.order_by == item.field + ',asc' || this.pagination.paginator.order_by == item.field);
+    this.pagination.sortColumn = item.field;
+    this.pagination.sortDirection = (this.pagination.sortDirection === 'asc') ? 'desc' : 'asc';
+    this.request(this.pagination);
   }
 
-  isDecrescentOrderedByField(item) {
-    return this.pagination && this.pagination.paginator.order_by == item.field + ',desc';
-  }
-
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
 }

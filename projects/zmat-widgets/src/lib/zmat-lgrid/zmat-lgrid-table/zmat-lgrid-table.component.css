@@ -7,16 +7,25 @@ th {
     text-align: left;
     border-bottom-width: 1px;
     border-bottom-style: solid;
-    border-color: lightgray; 
+    border-color: lightgray;
 }
 
 .actions {
     display: flex;
-    flex-direction: row;    
+    flex-direction: row;
 }
 
 td {
     border-bottom-width: 1px;
     border-bottom-style: solid;
-    border-color: lightgray;    
+    border-color: lightgray;
+}
+
+.hide {
+  visibility: hidden;
+  display: none;
+}
+.show {
+  visibility: display;
+  display: block;
 }

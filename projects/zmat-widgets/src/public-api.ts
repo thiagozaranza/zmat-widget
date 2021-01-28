@@ -2,7 +2,6 @@
  * Public API Surface of zmat-widgets
  */
 
-export * from './lib/generic-facade';
 export * from './lib/geom.model';
 
 export * from './lib/zmat-chart/zmat-chart.module';
@@ -19,7 +18,6 @@ export * from './lib/zmat-datepicker/zmat-datepicker-year/zmat-datepicker-year.c
 
 export * from './lib/zmat-lgrid/zmat-lgrid.module';
 export * from './lib/zmat-lgrid/zmat-lgrid.schema';
-export * from './lib/zmat-lgrid/zmat-pagination.model';
 export * from './lib/zmat-lgrid/dynamic-outlet';
 export * from './lib/zmat-lgrid/zmat-lgrid-pagination/zmat-lgrid-pagination.component';
 export * from './lib/zmat-lgrid/zmat-lgrid-table/zmat-lgrid-table.component';

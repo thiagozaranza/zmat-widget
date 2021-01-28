@@ -5,17 +5,19 @@
     <div class="item pages">{{ from }} a {{ to }} de {{ total }}</div>
     <div class="item fill-space"></div>
     <div class="item">
-        <button (click)="firstPage()" mat-icon-button color="primary" aria-label="Primeira página">
+        <button [disabled]="pagination?.page === 1 || totalPages == 1" (click)="firstPage()" mat-icon-button color="primary" aria-label="Primeira página">
             <mat-icon>first_page</mat-icon>
         </button>
-        <button (click)="previousPage()" mat-icon-button color="primary" aria-label="Página anterior">
+        <button [disabled]="pagination?.page === 1 || totalPages === 1" (click)="previousPage()" mat-icon-button color="primary" aria-label="Página anterior">
             <mat-icon>chevron_left</mat-icon>
         </button>
-        <button (click)="nextPage()" mat-icon-button color="primary" aria-label="Próxima página">
+        <button [disabled]="pagination.page === totalPages || totalPages === 1" (click)="nextPage()" mat-icon-button color="primary" aria-label="Próxima página">
             <mat-icon>chevron_right</mat-icon>
         </button>
-        <button (click)="lastPage()" mat-icon-button color="primary" aria-label="ùltima página">
+        <button [disabled]="pagination?.page === totalPages || totalPages === 1" (click)="lastPage()" mat-icon-button color="primary" aria-label="ùltima página">
             <mat-icon>last_page</mat-icon>
         </button>
     </div>
 </div>
+<!-- <p>page = {{ pagination?.page }}</p>
+<p>totalPages = {{ totalPages }}</p> -->
