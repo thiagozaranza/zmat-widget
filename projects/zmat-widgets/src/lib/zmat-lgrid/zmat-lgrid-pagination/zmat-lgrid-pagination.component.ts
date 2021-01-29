@@ -1,6 +1,6 @@
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
-import { IZmatLGridSchema, IZmatLgridPagination, ZmatLgridPagination } from '../zmat-lgrid.schema';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { IZmatLGridSchema, ZmatLgridPagination } from '../zmat-lgrid.schema';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'lib-zmat-lgrid-pagination',
@@ -12,14 +12,13 @@ export class ZmatLGridPaginationComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
   @Input() schema: IZmatLGridSchema;
-
-  @Input() total: number;
-
+  @Input() $total: Observable<number>;
   @Input() $pagination: Observable<ZmatLgridPagination>;
 
   @Output() pageChanged: EventEmitter<number> = new EventEmitter();
 
   public pagination: ZmatLgridPagination;
+  public total: number;
   public from: number = null;
   public to: number = null;
   public totalPages: number = null;
@@ -37,6 +36,14 @@ export class ZmatLGridPaginationComponent implements OnInit, OnDestroy {
       this.pagination = value;
       this.from = (value.page - 1) * value.limit + 1;
       this.to = (value.page) * value.limit;
+    });
+
+    this.$total?.subscribe(value => {
+      if (!value) {
+        return;
+      }
+      this.total = value;
+      this.totalPages = Math.ceil(this.total / this.pagination.limit);
     });
   }
 

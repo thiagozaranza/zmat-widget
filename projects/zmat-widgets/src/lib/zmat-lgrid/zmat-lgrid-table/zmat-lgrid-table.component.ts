@@ -1,10 +1,9 @@
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { IZmatLGridColumnSchema, IZmatLGridSchema, IZmatLgridPagination, ZmatLgridPagination } from '../zmat-lgrid.schema';
-import { map, tap } from 'rxjs/operators';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { IZmatLGridColumnSchema, IZmatLGridSchema, ZmatLgridPagination } from '../zmat-lgrid.schema';
+import { map, switchMap, tap } from 'rxjs/operators';
 
 import { Municipio } from 'src/app/modules/municipio/municipio';
-import { ZmatLgridPaginator } from 'zmat-widgets';
 
 @Component({
   selector: 'lib-zmat-lgrid-table',
@@ -21,14 +20,18 @@ export class ZmatLGridTableComponent implements OnInit, OnDestroy {
   @Input() showColumns: string[] = [];
   @Input() showFilters: string[] = [];
 
+  @Output() throwError: EventEmitter<any> = new EventEmitter();
+
+  private $paginator: BehaviorSubject<ZmatLgridPagination>;
+
   public $pagination = new BehaviorSubject<ZmatLgridPagination>(new ZmatLgridPagination());
-  private pagination: ZmatLgridPagination;
+  public pagination: ZmatLgridPagination;
+
+  public $total = new BehaviorSubject<number>(null);
 
   public loading = false;
-  public total = 0;
 
   constructor() {
-
   }
 
   ngOnInit(): void
@@ -39,28 +42,41 @@ export class ZmatLGridTableComponent implements OnInit, OnDestroy {
       });
     }
 
-    this.request(ZmatLgridPagination.build(this.schema.pagination));
-  }
-
-  public request(pagination: ZmatLgridPagination): void {
-
-    this.pagination = pagination;
-    this.loading = true;
+    if (this.schema.pagination) {
+      this.$paginator = new BehaviorSubject<ZmatLgridPagination>(ZmatLgridPagination.build(this.schema.pagination));
+    } else {
+      this.$paginator = new BehaviorSubject<ZmatLgridPagination>(new ZmatLgridPagination());
+    }
 
     this.subscriptions.add(
-      this.schema.service.paginate(pagination, this.schema).pipe(
-          map(response => Municipio.parseResponse(response))
-      ).subscribe(a => {
-        this.data = a.data;
-        this.total = a.total;
-        this.$pagination.next(this.pagination);
-        this.loading = false;
-      }));
+      this.$paginator?.pipe(
+        tap((zmatPagination) => {
+          this.loading = true;
+          this.pagination = zmatPagination;
+        }),
+        switchMap(zmatPagination => this.schema.service.paginate(zmatPagination, this.schema)),
+        map(apiResponse => Municipio.parseResponse(apiResponse))
+      ).subscribe(
+        (parsedApiResponse) => {
+          this.data = parsedApiResponse.data;
+          this.$pagination.next(this.pagination);
+          this.$total.next(parsedApiResponse.total);
+          this.loading = false;
+        }, (error) => {
+          this.loading = false;
+          this.throwError.emit(error);
+        }
+      ));
   }
 
   pageChanged($event): void {
     this.pagination.page = $event;
-    this.request(this.pagination);
+    this.$paginator.next(this.pagination);
+  }
+
+  searchChanged($event): void {
+    this.pagination.search = $event;
+    this.$paginator.next(this.pagination);
   }
 
   selectItem(obj: any): void {
@@ -71,7 +87,7 @@ export class ZmatLGridTableComponent implements OnInit, OnDestroy {
   {
     this.pagination.sortColumn = item.field;
     this.pagination.sortDirection = (this.pagination.sortDirection === 'asc') ? 'desc' : 'asc';
-    this.request(this.pagination);
+    this.$paginator.next(this.pagination);
   }
 
   ngOnDestroy(): void {

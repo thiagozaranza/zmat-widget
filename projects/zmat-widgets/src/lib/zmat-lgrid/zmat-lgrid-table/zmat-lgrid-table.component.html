@@ -1,3 +1,4 @@
+<lib-zmat-lgrid-search *ngIf="this.schema.enableSeach !== false" (searchChanged)="searchChanged($event)"></lib-zmat-lgrid-search>
 <mat-progress-bar mode="indeterminate" [class.show]="loading" [class.hide]="!loading"></mat-progress-bar>
 <table>
     <tr>
@@ -24,4 +25,4 @@
         </td>
     </tr>
 </table>
-<lib-zmat-lgrid-pagination [schema]="schema" [$pagination]="$pagination" [total]="total" (pageChanged)="pageChanged($event)"></lib-zmat-lgrid-pagination>
+<lib-zmat-lgrid-pagination [schema]="schema" [$pagination]="$pagination" [$total]="$total" (pageChanged)="pageChanged($event)"></lib-zmat-lgrid-pagination>

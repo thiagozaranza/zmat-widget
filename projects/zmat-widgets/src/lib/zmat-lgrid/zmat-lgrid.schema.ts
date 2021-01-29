@@ -1,10 +1,10 @@
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 
 export type IGetPropertyFunc = (item: any) => any;
 
 export type IRequestItemsFunc = (item: IZmatLgridPagination) => Observable<any>;
 
-export type IParseParamFunc = (param: IZmatLgridPagination) => string;
+export type IParseParamFunc = (param: any) => string;
 
 export declare type SortDirection = 'asc' | 'desc' | '';
 
@@ -14,6 +14,7 @@ export interface IZmatLgridPagination {
   sortDirection?: SortDirection;
   page?: number;
   filters?: any;
+  seacrch?: string;
 }
 
 export class ZmatLgridPagination implements IZmatLgridPagination {
@@ -23,7 +24,8 @@ export class ZmatLgridPagination implements IZmatLgridPagination {
     public sortColumn = null,
     public sortDirection = null,
     public page = 1,
-    public filters = null
+    public filters = null,
+    public search = null
   ) {
 
   }
@@ -31,10 +33,11 @@ export class ZmatLgridPagination implements IZmatLgridPagination {
   public static build(obj: IZmatLgridPagination): ZmatLgridPagination {
     return new ZmatLgridPagination(
       obj.limit,
-      obj.sortDirection,
+      obj.sortColumn,
       obj.sortDirection,
       obj.page,
-      obj.filters
+      obj.filters,
+      obj.seacrch
     );
   }
 
@@ -43,7 +46,7 @@ export class ZmatLgridPagination implements IZmatLgridPagination {
 
     if (this.limit) {
       if (gridSchema.parseLimitParam) {
-        query.push(gridSchema.parseLimitParam(this));
+        query.push(gridSchema.parseLimitParam(this.limit));
       } else {
         query.push('limit=' + this.limit);
       }
@@ -51,7 +54,7 @@ export class ZmatLgridPagination implements IZmatLgridPagination {
 
     if (this.sortColumn) {
       if (gridSchema.parseSortParam) {
-        query.push(gridSchema.parseSortParam(this));
+        query.push(gridSchema.parseSortParam(this.sortColumn));
       } else {
         let order = 'orderBy=' + this.sortColumn;
         if (this.sortDirection) {
@@ -63,7 +66,7 @@ export class ZmatLgridPagination implements IZmatLgridPagination {
 
     if (this.page) {
       if (gridSchema.parsePageParam) {
-        query.push(gridSchema.parsePageParam(this));
+        query.push(gridSchema.parsePageParam(this.page));
       } else {
         query.push('page=' + this.page);
       }
@@ -71,9 +74,17 @@ export class ZmatLgridPagination implements IZmatLgridPagination {
 
     if (this.filters) {
       if (gridSchema.parseFiltersParam) {
-        query.push(gridSchema.parsePageParam(this));
+        query.push(gridSchema.parseFiltersParam(this.filters));
       } else {
-        query.push('page=' + this.page);
+        query.push(Object.keys(this.filters).map(key => key + '=' + this.filters[key]).join('&'));
+      }
+    }
+
+    if (this.search) {
+      if (gridSchema.parseSearchParam) {
+        query.push(gridSchema.parseSearchParam(this.search));
+      } else {
+        query.push('search=' + this.search);
       }
     }
 
@@ -83,13 +94,15 @@ export class ZmatLgridPagination implements IZmatLgridPagination {
 
 export interface IZmatLGridSchema {
   service: any;
-  pagination: IZmatLgridPagination;
+  pagination?: IZmatLgridPagination;
+  enableSeach?: boolean;
   parsePageParam?: IParseParamFunc;
   parseSortParam?: IParseParamFunc;
   parseLimitParam?: IParseParamFunc;
   parseFiltersParam?: IParseParamFunc;
+  parseSearchParam?: IParseParamFunc;
   columns: IZmatLGridColumnSchema[];
-  actions: IZmatLGridActionSchema[];
+  actions?: IZmatLGridActionSchema[];
 }
 
 export interface IZmatLGridColumnSchema {

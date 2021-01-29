@@ -1,32 +1,37 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-
-import { ZmatLGridTableComponent } from './zmat-lgrid-table/zmat-lgrid-table.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { NgModule } from '@angular/core';
 import { ZmatLGridPaginationComponent } from './zmat-lgrid-pagination/zmat-lgrid-pagination.component';
-import { ZmatLGridTdTextComponent } from './zmat-lgrid-td-text/zmat-lgrid-td-text.component';
-import { ZmatLGridTdBoolComponent } from './zmat-lgrid-td-bool/zmat-lgrid-td-bool.component';
+import { ZmatLGridTableComponent } from './zmat-lgrid-table/zmat-lgrid-table.component';
 import { ZmatLGridTdActionComponent } from './zmat-lgrid-td-action/zmat-lgrid-td-action.component';
-
+import { ZmatLGridTdBoolComponent } from './zmat-lgrid-td-bool/zmat-lgrid-td-bool.component';
+import { ZmatLGridTdTextComponent } from './zmat-lgrid-td-text/zmat-lgrid-td-text.component';
+import { ZmatLgridSearchComponent } from './zmat-lgrid-search/zmat-lgrid-search.component';
 import { dynamicOutlet } from './dynamic-outlet';
 
 @NgModule({
   declarations: [
-    ZmatLGridTableComponent, 
-    ZmatLGridPaginationComponent, 
-    ZmatLGridTdTextComponent,      
-    ZmatLGridTdBoolComponent, 
+    ZmatLGridTableComponent,
+    ZmatLGridPaginationComponent,
+    ZmatLGridTdTextComponent,
+    ZmatLGridTdBoolComponent,
     ZmatLGridTdActionComponent,
     dynamicOutlet,
+    ZmatLgridSearchComponent,
   ],
   imports: [
     CommonModule,
     MatIconModule,
     MatProgressBarModule,
-    MatButtonModule
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule
   ],
   exports: [
     ZmatLGridTableComponent,
@@ -36,7 +41,7 @@ import { dynamicOutlet } from './dynamic-outlet';
     ZmatLGridTdActionComponent
   ],
   entryComponents: [
-    ZmatLGridTdTextComponent, 
+    ZmatLGridTdTextComponent,
     ZmatLGridTdBoolComponent,
     ZmatLGridTdActionComponent
   ]

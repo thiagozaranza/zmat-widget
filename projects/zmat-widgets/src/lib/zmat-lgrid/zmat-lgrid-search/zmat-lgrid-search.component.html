@@ -1,0 +1,7 @@
+<mat-form-field>
+  <mat-label>Localizar</mat-label>
+  <input matInput #searchInput type="text" [(ngModel)]="value">
+  <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Limpar" (click)="clean()">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-form-field>
