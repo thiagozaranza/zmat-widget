@@ -14,8 +14,10 @@ export class ZmatLGridPaginationComponent implements OnInit, OnDestroy {
   @Input() schema: IZmatLGridSchema;
   @Input() $total: Observable<number>;
   @Input() $pagination: Observable<ZmatLgridPagination>;
+  @Input() $selection: Observable<any[]>;
 
   @Output() pageChanged: EventEmitter<number> = new EventEmitter();
+  @Output() selectionCleaned: EventEmitter<number> = new EventEmitter();
 
   public pagination: ZmatLgridPagination;
   public total: number;
@@ -35,7 +37,6 @@ export class ZmatLGridPaginationComponent implements OnInit, OnDestroy {
       this.totalPages = Math.ceil(this.total / value.limit);
       this.pagination = value;
       this.from = (value.page - 1) * value.limit + 1;
-      this.to = (value.page) * value.limit;
     });
 
     this.$total?.subscribe(value => {
@@ -44,6 +45,9 @@ export class ZmatLGridPaginationComponent implements OnInit, OnDestroy {
       }
       this.total = value;
       this.totalPages = Math.ceil(this.total / this.pagination.limit);
+
+      const to = (this.pagination.page) * this.pagination.limit;
+      this.to = (to > this.total) ? this.total : to;
     });
   }
 
@@ -76,5 +80,10 @@ export class ZmatLGridPaginationComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+  }
+
+  cleanSelected(): void
+  {
+    this.selectionCleaned.emit();
   }
 }

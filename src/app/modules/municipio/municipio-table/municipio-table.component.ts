@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { IZmatLGridSchema, ZmatLGridTdActionComponent, ZmatLGridTdTextComponent } from 'projects/zmat-widgets/src/public-api';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { IZmatLGridSchema, ZmatLGridSelectionModeType, ZmatLGridTdActionComponent, ZmatLGridTdTextComponent } from 'projects/zmat-widgets/src/public-api';
 
 import { Municipio } from '../municipio';
 import { MunicipioService } from '../municipio.service';
@@ -11,6 +11,9 @@ import { MunicipioService } from '../municipio.service';
 })
 export class MunicipioTableComponent implements OnInit {
 
+  @Output() selectionChanged: EventEmitter<any[]> = new EventEmitter();
+  @Output() throwError: EventEmitter<any> = new EventEmitter();
+
   public gridSchema: IZmatLGridSchema;
 
   public data: Municipio[] = [];
@@ -19,10 +22,18 @@ export class MunicipioTableComponent implements OnInit {
 
     this.gridSchema = {
       service: municipioService,
+      enableSeach: true,
+      selectionMode: ZmatLGridSelectionModeType.MULTI_SELECTION,
       pagination: {
         page: 1,
         limit: 10,
-        sortColumn: 'nome'
+        sortColumn: 'uf',
+        filters: {
+          uf: 'CE'
+        }
+      },
+      parseSearchParam(search): string {
+        return 'nome-lk=' + search;
       },
       columns: [
         {
@@ -35,7 +46,7 @@ export class MunicipioTableComponent implements OnInit {
           }
         },
         {
-          title: 'Nome Municipio',
+          title: 'Municipio',
           field: 'nome',
           ordenable: true,
           render: ZmatLGridTdTextComponent,
@@ -44,7 +55,7 @@ export class MunicipioTableComponent implements OnInit {
           }
         },
         {
-          title: 'Município',
+          title: 'UF',
           field: 'uf',
           ordenable: false,
           render: ZmatLGridTdTextComponent,
@@ -73,4 +84,11 @@ export class MunicipioTableComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  changeSelection($event): void {
+    this.selectionChanged.emit($event);
+  }
+
+  err($event): void {
+    this.throwError.emit($event);
+  }
 }

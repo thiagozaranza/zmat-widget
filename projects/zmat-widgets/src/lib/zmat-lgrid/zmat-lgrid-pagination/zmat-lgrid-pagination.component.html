@@ -3,7 +3,23 @@
 </div> -->
 <div class="container">
     <div class="item pages">{{ from }} a {{ to }} de {{ total }}</div>
+    <div class="item chips">
+      <mat-chip-list
+        class=""
+        cdkDropList
+        cdkDropListOrientation="horizontal">
+        <mat-chip *ngIf="($selection | async).length > 0"
+          color="accent"
+          selected
+          [removable]="true"
+          (removed)="cleanSelected()">
+          {{ ($selection | async).length }} selecionados
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+      </mat-chip-list>
+    </div>
     <div class="item fill-space"></div>
+
     <div class="item">
         <button [disabled]="pagination?.page === 1 || totalPages == 1" (click)="firstPage()" mat-icon-button color="primary" aria-label="Primeira página">
             <mat-icon>first_page</mat-icon>
@@ -18,4 +34,5 @@
             <mat-icon>last_page</mat-icon>
         </button>
     </div>
+
 </div>

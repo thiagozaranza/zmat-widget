@@ -92,10 +92,17 @@ export class ZmatLgridPagination implements IZmatLgridPagination {
   }
 }
 
+export enum ZmatLGridSelectionModeType {
+  MULTI_SELECTION = 'multi',
+  SINGLE_SELECTION = 'single',
+  NO_SELECTION = 'none'
+}
+
 export interface IZmatLGridSchema {
   service: any;
   pagination?: IZmatLgridPagination;
   enableSeach?: boolean;
+  selectionMode?: ZmatLGridSelectionModeType;
   parsePageParam?: IParseParamFunc;
   parseSortParam?: IParseParamFunc;
   parseLimitParam?: IParseParamFunc;

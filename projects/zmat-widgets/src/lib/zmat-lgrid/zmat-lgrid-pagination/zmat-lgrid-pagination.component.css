@@ -1,13 +1,20 @@
 .container {
     display: flex;
-    flex-direction: row;    
+    flex-direction: row;
 }
 
-.item {
-    
+.chips {
+  padding: 4px 10px;
 }
-
 .pages {
-    padding: 12px 20px;
+    padding: 12px 10px;
     color: gray;
+}
+
+.mat-chip {
+  font-weight: 800;
+}
+
+.fill-space {
+  flex: 1 1 auto;
 }

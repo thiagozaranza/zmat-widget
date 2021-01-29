@@ -46,4 +46,8 @@ export class Municipio extends ZmatModel implements IMunicipio  {
     const serialized = Object.assign(this);
     return serialized;
   }
+
+  equals(obj: Municipio): boolean {
+    return this.id === obj.id;
+  }
 }
