@@ -29,3 +29,7 @@ td {
   visibility: display;
   display: block;
 }
+
+.selected {
+  background-color: #F0F0F0;
+}

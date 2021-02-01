@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSelectModule } from '@angular/material/select';
 import { NgModule } from '@angular/core';
 import { ZmatLGridPaginationComponent } from './zmat-lgrid-pagination/zmat-lgrid-pagination.component';
 import { ZmatLGridTableComponent } from './zmat-lgrid-table/zmat-lgrid-table.component';
@@ -37,6 +38,7 @@ import { dynamicOutlet } from './dynamic-outlet';
     MatBadgeModule,
     MatChipsModule,
     MatInputModule,
+    MatSelectModule,
     FormsModule
   ],
   exports: [

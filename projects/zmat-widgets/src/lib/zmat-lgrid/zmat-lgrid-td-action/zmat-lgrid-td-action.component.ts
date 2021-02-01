@@ -1,7 +1,7 @@
-import { Component, ViewChild, TemplateRef } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 
 @Component({
-  selector: 'zmat-lgrid-td-action',
+  selector: 'lib-zmat-lgrid-td-action',
   templateUrl: './zmat-lgrid-td-action.component.html',
   styleUrls: ['./zmat-lgrid-td-action.component.css']
 })

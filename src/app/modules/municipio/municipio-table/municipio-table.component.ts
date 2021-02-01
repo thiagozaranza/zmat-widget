@@ -23,10 +23,10 @@ export class MunicipioTableComponent implements OnInit {
     this.gridSchema = {
       service: municipioService,
       enableSeach: true,
-      selectionMode: ZmatLGridSelectionModeType.MULTI_SELECTION,
+      selectionMode: ZmatLGridSelectionModeType.SINGLE_SELECTION,
       pagination: {
         page: 1,
-        limit: 10,
+        limit: 5,
         sortColumn: 'uf',
         filters: {
           uf: 'CE'

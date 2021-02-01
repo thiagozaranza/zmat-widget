@@ -1,6 +1,6 @@
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { IZmatLGridColumnSchema, IZmatLGridSchema, ZmatLgridPagination } from '../zmat-lgrid.schema';
+import { IZmatLGridColumnSchema, IZmatLGridSchema, ZmatLGridSelectionModeType, ZmatLgridPagination } from '../zmat-lgrid.schema';
 import { map, switchMap, tap } from 'rxjs/operators';
 
 import { Municipio } from 'src/app/modules/municipio/municipio';
@@ -76,8 +76,14 @@ export class ZmatLGridTableComponent implements OnInit, OnDestroy {
       );
   }
 
-  pageChanged($event): void {
+  changedPage($event): void {
     this.pagination.page = $event;
+    this.$paginator.next(this.pagination);
+  }
+
+  changedLimit($event): void {
+    this.pagination.page = 1;
+    this.pagination.limit = $event;
     this.$paginator.next(this.pagination);
   }
 
@@ -107,10 +113,27 @@ export class ZmatLGridTableComponent implements OnInit, OnDestroy {
   }
 
   toggle(row): void {
+    if (this.schema.selectionMode !== ZmatLGridSelectionModeType.MULTI_SELECTION) {
+      return;
+    }
     if (this.isSelected(row)) {
       this.selection = this.selection.filter(item => !item.equals(row));
     } else {
       this.selection.push(row);
+    }
+
+    this.$selection.next(this.selection);
+  }
+
+  select(row): void {
+    if (this.schema.selectionMode !== ZmatLGridSelectionModeType.SINGLE_SELECTION) {
+      return;
+    }
+
+    if (this.selection.length === 1 && this.selection[0].equals(row)) {
+      this.selection = [];
+    } else {
+      this.selection = [row];
     }
 
     this.$selection.next(this.selection);

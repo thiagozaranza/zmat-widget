@@ -17,6 +17,7 @@ export class ZmatLGridPaginationComponent implements OnInit, OnDestroy {
   @Input() $selection: Observable<any[]>;
 
   @Output() pageChanged: EventEmitter<number> = new EventEmitter();
+  @Output() limitChanged: EventEmitter<number> = new EventEmitter();
   @Output() selectionCleaned: EventEmitter<number> = new EventEmitter();
 
   public pagination: ZmatLgridPagination;
@@ -24,6 +25,7 @@ export class ZmatLGridPaginationComponent implements OnInit, OnDestroy {
   public from: number = null;
   public to: number = null;
   public totalPages: number = null;
+  public selectedLimit: number = null;
 
   constructor() {
 
@@ -34,13 +36,15 @@ export class ZmatLGridPaginationComponent implements OnInit, OnDestroy {
       if (!value) {
         return;
       }
+
+      this.selectedLimit = this.pagination?.limit;
       this.totalPages = Math.ceil(this.total / value.limit);
       this.pagination = value;
       this.from = (value.page - 1) * value.limit + 1;
     });
 
     this.$total?.subscribe(value => {
-      if (!value) {
+      if (!value || !this.pagination) {
         return;
       }
       this.total = value;
@@ -85,5 +89,10 @@ export class ZmatLGridPaginationComponent implements OnInit, OnDestroy {
   cleanSelected(): void
   {
     this.selectionCleaned.emit();
+  }
+
+  changeLimit(): void
+  {
+    this.limitChanged.emit(this.selectedLimit);
   }
 }

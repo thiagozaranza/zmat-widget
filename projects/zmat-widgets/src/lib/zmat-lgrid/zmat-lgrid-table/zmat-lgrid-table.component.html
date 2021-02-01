@@ -19,7 +19,7 @@
         </th>
         <th mat-header-cell *ngIf="enableActions && schema.actions.length > 0">Ações</th>
     </tr>
-    <tr *ngFor="let obj of data">
+    <tr *ngFor="let obj of data" [class.selected]="selection.length == 1 && selection[0].equals(obj)">
         <td mat-cell *ngIf="schema.selectionMode === 'multi'">
           <mat-checkbox (click)="$event.stopPropagation()"
                         (change)="$event ? toggle(obj) : null"
@@ -27,7 +27,7 @@
                         [aria-label]="checkboxLabel(obj)">
           </mat-checkbox>
         </td>
-        <td mat-cell *ngFor="let item of schema.columns" (click)="toggle(obj)">
+        <td mat-cell *ngFor="let item of schema.columns" (click)="toggle(obj)" (dblclick)="select(obj)">
             <ng-container *dynamicOutlet="item.render; model: item; data: obj"></ng-container>
         </td>
         <td mat-cell *ngIf="enableActions && schema.actions.length > 0" style="padding: 0px;">
@@ -45,5 +45,6 @@
   [$selection]="$selection"
   (selectionCleaned)="cleanSelection()"
   [$total]="$total"
-  (pageChanged)="pageChanged($event)">
+  (pageChanged)="changedPage($event)"
+  (limitChanged)="changedLimit($event)">
 </lib-zmat-lgrid-pagination>

@@ -19,7 +19,18 @@
       </mat-chip-list>
     </div>
     <div class="item fill-space"></div>
-
+    <div class="item">
+      <mat-form-field class="grid-limit">
+        <mat-label>Limite</mat-label>
+        <select matNativeControl [(ngModel)]="selectedLimit" (change)="changeLimit()" >
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="25">25</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+      </mat-form-field>
+    </div>
     <div class="item">
         <button [disabled]="pagination?.page === 1 || totalPages == 1" (click)="firstPage()" mat-icon-button color="primary" aria-label="Primeira página">
             <mat-icon>first_page</mat-icon>
@@ -27,7 +38,7 @@
         <button [disabled]="pagination?.page === 1 || totalPages === 1" (click)="previousPage()" mat-icon-button color="primary" aria-label="Página anterior">
             <mat-icon>chevron_left</mat-icon>
         </button>
-        <button [disabled]="pagination.page === totalPages || totalPages === 1" (click)="nextPage()" mat-icon-button color="primary" aria-label="Próxima página">
+        <button [disabled]="pagination?.page === totalPages || totalPages === 1" (click)="nextPage()" mat-icon-button color="primary" aria-label="Próxima página">
             <mat-icon>chevron_right</mat-icon>
         </button>
         <button [disabled]="pagination?.page === totalPages || totalPages === 1" (click)="lastPage()" mat-icon-button color="primary" aria-label="ùltima página">
