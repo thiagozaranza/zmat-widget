@@ -27,4 +27,12 @@ export class MunicipioService {
   paginate(pagination: ZmatLgridPagination, gridSchema: IZmatLGridSchema): Observable<any> {
     return this.http.get<any>(this.getUrl() + '?' + pagination.toString(gridSchema));
   }
+
+  patch(obj: any): Observable<any> {
+    return this.http.patch<any>(this.getUrl(), obj);
+  }
+
+  pick(obj: any): Observable<any> {
+    return this.http.get<any>(this.getUrl());
+  }
 }

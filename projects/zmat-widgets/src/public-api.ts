@@ -24,7 +24,8 @@ export * from './lib/zmat-lgrid/zmat-lgrid-table/zmat-lgrid-table.component';
 export * from './lib/zmat-lgrid/zmat-lgrid-td-action/zmat-lgrid-td-action.component';
 export * from './lib/zmat-lgrid/zmat-lgrid-td-bool/zmat-lgrid-td-bool.component';
 export * from './lib/zmat-lgrid/zmat-lgrid-td-text/zmat-lgrid-td-text.component';
-export * from './lib/zmat-lgrid/zmat-lgrid-td-text/zmat-lgrid-td-text.component';
+export * from './lib/zmat-lgrid/zmat-lgrid-td-editable-text/zmat-lgrid-td-editable-text.component';
+export * from './lib/zmat-lgrid/zmat-lgrid-td-editable-select/zmat-lgrid-td-editable-select.component';
 
 export * from './lib/zmat-map/zmat-map.module';
 export * from './lib/zmat-map/zmat-map.schema';

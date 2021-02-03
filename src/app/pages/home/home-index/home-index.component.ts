@@ -10,11 +10,17 @@ import { Municipio } from 'src/app/modules/municipio/municipio';
 })
 export class HomeIndexComponent implements OnInit {
 
+  public municipios: Municipio[] = [];
+
   constructor() {
 
   }
 
   ngOnInit(): void {
+  }
+
+  municipioSelecionado($event): void {
+    this.municipios = $event;
   }
 
 }

@@ -1,9 +1,10 @@
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { IZmatLGridColumnSchema, IZmatLGridSchema, ZmatLGridSelectionModeType, ZmatLgridPagination } from '../zmat-lgrid.schema';
+import { IZmatLGridColumnSchema, IZmatLGridSchema, ZmatLgridPagination } from '../zmat-lgrid.schema';
 import { map, switchMap, tap } from 'rxjs/operators';
 
 import { Municipio } from 'src/app/modules/municipio/municipio';
+import { ZmatLgridSelection } from '../zmat-lgrid-selection';
 
 @Component({
   selector: 'lib-zmat-lgrid-table',
@@ -24,6 +25,7 @@ export class ZmatLGridTableComponent implements OnInit, OnDestroy {
   @Output() throwError: EventEmitter<any> = new EventEmitter();
 
   private $paginator: BehaviorSubject<ZmatLgridPagination>;
+  public selector: ZmatLgridSelection;
 
   public $pagination: BehaviorSubject<ZmatLgridPagination> = new BehaviorSubject<ZmatLgridPagination>(new ZmatLgridPagination());
   public pagination: ZmatLgridPagination;
@@ -31,9 +33,6 @@ export class ZmatLGridTableComponent implements OnInit, OnDestroy {
   public $total = new BehaviorSubject<number>(null);
 
   public loading = false;
-
-  public $selection = new BehaviorSubject<any[]>([]);
-  public selection: any[] = [];
 
   constructor() { }
 
@@ -44,6 +43,8 @@ export class ZmatLGridTableComponent implements OnInit, OnDestroy {
         return this.showColumns.includes(item.field);
       });
     }
+
+    this.selector = new ZmatLgridSelection(this.schema);
 
     if (this.schema.pagination) {
       this.$paginator = new BehaviorSubject<ZmatLgridPagination>(ZmatLgridPagination.build(this.schema.pagination));
@@ -62,6 +63,7 @@ export class ZmatLGridTableComponent implements OnInit, OnDestroy {
       ).subscribe(
         (parsedApiResponse) => {
           this.data = parsedApiResponse.data;
+          this.selector.data = this.data;
           this.$pagination.next(this.pagination);
           this.$total.next(parsedApiResponse.total);
           this.loading = false;
@@ -70,7 +72,7 @@ export class ZmatLGridTableComponent implements OnInit, OnDestroy {
           this.throwError.emit(error);
         }
       )).add(
-        this.$selection.subscribe(
+        this.selector.$selection.subscribe(
           value => this.selectionChanged.emit(value)
         )
       );
@@ -87,76 +89,17 @@ export class ZmatLGridTableComponent implements OnInit, OnDestroy {
     this.$paginator.next(this.pagination);
   }
 
-  searchChanged($event): void {
-    this.cleanSelection();
+  changeSearch($event): void {
     this.pagination.page = 1;
     this.pagination.search = $event;
     this.$paginator.next(this.pagination);
   }
 
-  private selectedOnPage(): any[] {
-    return this.selection.filter(item => this.data.filter(itemA => item.equals(itemA)).length  === 1);
-  }
-
-  isAllSelected(): boolean {
-    return this.data?.length > 0 &&
-      this.selectedOnPage().length === this.data?.length;
-  }
-
-  isSomeSelected(): boolean {
-    const countSelectedOnPage = this.selectedOnPage().length;
-    return this.data?.length > 0 && countSelectedOnPage > 0 && countSelectedOnPage < this.data?.length;
-  }
-
-  isSelected(row): boolean {
-    return this.selection.filter(item => item.equals(row)).length === 1;
-  }
-
-  toggle(row): void {
-    if (this.schema.selectionMode !== ZmatLGridSelectionModeType.MULTI_SELECTION) {
-      return;
-    }
-    if (this.isSelected(row)) {
-      this.selection = this.selection.filter(item => !item.equals(row));
-    } else {
-      this.selection.push(row);
-    }
-
-    this.$selection.next(this.selection);
-  }
-
-  select(row): void {
-    if (this.schema.selectionMode !== ZmatLGridSelectionModeType.SINGLE_SELECTION) {
-      return;
-    }
-
-    if (this.selection.length === 1 && this.selection[0].equals(row)) {
-      this.selection = [];
-    } else {
-      this.selection = [row];
-    }
-
-    this.$selection.next(this.selection);
-  }
-
-  masterToggle(): void {
-    this.isAllSelected() ?
-        this.selection = this.selection.filter(item => this.data.filter(itemA => item.equals(itemA)).length === 0) :
-        this.data.filter(item => !this.isSelected(item)).map(item => this.selection.push(item));
-
-    this.$selection.next(this.selection);
-  }
-
-  cleanSelection(): void {
-    this.selection = [];
-    this.$selection.next(this.selection);
-  }
-
   checkboxLabel(row?: any): string {
     if (!row) {
-      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+      return `${this.selector.isAllSelected() ? 'select' : 'deselect'} all`;
     }
-    return `${this.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+    return `${this.selector.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
   orderBy(item: IZmatLGridColumnSchema): void

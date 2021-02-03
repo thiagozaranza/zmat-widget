@@ -8,14 +8,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { NgModule } from '@angular/core';
 import { ZmatLGridPaginationComponent } from './zmat-lgrid-pagination/zmat-lgrid-pagination.component';
 import { ZmatLGridTableComponent } from './zmat-lgrid-table/zmat-lgrid-table.component';
 import { ZmatLGridTdActionComponent } from './zmat-lgrid-td-action/zmat-lgrid-td-action.component';
 import { ZmatLGridTdBoolComponent } from './zmat-lgrid-td-bool/zmat-lgrid-td-bool.component';
+import { ZmatLGridTdEditableSelectComponent } from './zmat-lgrid-td-editable-select/zmat-lgrid-td-editable-select.component';
 import { ZmatLGridTdTextComponent } from './zmat-lgrid-td-text/zmat-lgrid-td-text.component';
 import { ZmatLgridSearchComponent } from './zmat-lgrid-search/zmat-lgrid-search.component';
+import { ZmatLgridTdEditableTextComponent } from './zmat-lgrid-td-editable-text/zmat-lgrid-td-editable-text.component';
 import { dynamicOutlet } from './dynamic-outlet';
 
 @NgModule({
@@ -27,6 +30,8 @@ import { dynamicOutlet } from './dynamic-outlet';
     ZmatLGridTdActionComponent,
     dynamicOutlet,
     ZmatLgridSearchComponent,
+    ZmatLgridTdEditableTextComponent,
+    ZmatLGridTdEditableSelectComponent,
   ],
   imports: [
     CommonModule,
@@ -38,6 +43,7 @@ import { dynamicOutlet } from './dynamic-outlet';
     MatBadgeModule,
     MatChipsModule,
     MatInputModule,
+    MatProgressSpinnerModule,
     MatSelectModule,
     FormsModule
   ],
@@ -46,12 +52,16 @@ import { dynamicOutlet } from './dynamic-outlet';
     ZmatLGridPaginationComponent,
     ZmatLGridTdTextComponent,
     ZmatLGridTdBoolComponent,
-    ZmatLGridTdActionComponent
+    ZmatLGridTdActionComponent,
+    ZmatLGridTdEditableSelectComponent,
+    ZmatLgridTdEditableTextComponent
   ],
   entryComponents: [
     ZmatLGridTdTextComponent,
     ZmatLGridTdBoolComponent,
-    ZmatLGridTdActionComponent
+    ZmatLGridTdActionComponent,
+    ZmatLGridTdEditableSelectComponent,
+    ZmatLgridTdEditableTextComponent
   ]
 })
 export class ZmatLGridModule { }

@@ -1,3 +1,4 @@
+import { HttpHandler } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export type IGetPropertyFunc = (item: any) => any;
@@ -118,6 +119,7 @@ export interface IZmatLGridColumnSchema {
     ordenable?: boolean;
     render: any;
     getData: IGetPropertyFunc;
+    saveChangesHandler?: any;
 }
 
 export interface IZmatLGridActionSchema {

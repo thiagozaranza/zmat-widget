@@ -1,5 +1,11 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { IZmatLGridSchema, ZmatLGridSelectionModeType, ZmatLGridTdActionComponent, ZmatLGridTdTextComponent } from 'projects/zmat-widgets/src/public-api';
+import {
+  IZmatLGridSchema,
+  ZmatLGridSelectionModeType,
+  ZmatLGridTdActionComponent,
+  ZmatLGridTdTextComponent,
+  ZmatLgridTdEditableTextComponent
+} from 'projects/zmat-widgets/src/public-api';
 
 import { Municipio } from '../municipio';
 import { MunicipioService } from '../municipio.service';
@@ -23,7 +29,7 @@ export class MunicipioTableComponent implements OnInit {
     this.gridSchema = {
       service: municipioService,
       enableSeach: true,
-      selectionMode: ZmatLGridSelectionModeType.SINGLE_SELECTION,
+      selectionMode: ZmatLGridSelectionModeType.MULTI_SELECTION,
       pagination: {
         page: 1,
         limit: 5,
@@ -49,9 +55,12 @@ export class MunicipioTableComponent implements OnInit {
           title: 'Municipio',
           field: 'nome',
           ordenable: true,
-          render: ZmatLGridTdTextComponent,
+          render: ZmatLgridTdEditableTextComponent,
           getData(obj: Municipio): string {
             return obj.nome;
+          },
+          saveChangesHandler() {
+            return municipioService.patch;
           }
         },
         {

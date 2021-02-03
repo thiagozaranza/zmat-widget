@@ -2,9 +2,11 @@ import {
     ComponentFactoryResolver,
     ComponentRef,
     Directive,
+    EventEmitter,
     Input,
     OnChanges,
     OnDestroy,
+    Output,
     SimpleChanges,
     Type,
     ViewContainerRef
