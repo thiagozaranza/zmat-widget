@@ -1,0 +1,77 @@
+.hide {
+  visibility: hidden;
+  display: none;
+}
+.show {
+  visibility: display;
+  display: block;
+}
+
+.error {
+  -webkit-animation: color-error 3s 1;
+  -moz-animation: color-error 3s 1;
+  -o-animation: color-error 3s 1;
+  -ms-animation: color-error 3s 1;
+  animation: color-error 3s 1;
+}
+
+@-webkit-keyframes color-error {
+  0% { color: red; }
+  90% { color: red; }
+  100% { color: black; }
+}
+@-moz-keyframes color-error {
+  0% { color: red; }
+  90% { color: red; }
+  100% { color: black; }
+}
+@-ms-keyframes color-error {
+  0% { color: red; }
+  90% { color: red; }
+  100% { color: black; }
+}
+@-o-keyframes color-error {
+  0% { color: red; }
+  90% { color: red; }
+  100% { color: black; }
+}
+@keyframes color-error {
+  0% { color: red; }
+  90% { color: red; }
+  100% { color: black; }
+}
+
+.success {
+  -webkit-animation: color-success 3s 1;
+  -moz-animation: color-success 3s 1;
+  -o-animation: color-success 3s 1;
+  -ms-animation: color-success 3s 1;
+  animation: color-success 3s 1;
+}
+
+@-webkit-keyframes color-success {
+  0% { color: green; }
+  90% { color: green; }
+  100% { color: black; }
+}
+@-moz-keyframes color-success {
+  0% { color: green; }
+  90% { color: green; }
+  100% { color: black; }
+}
+@-ms-keyframes color-success {
+  0% { color: green; }
+  90% { color: green; }
+  100% { color: black; }
+}
+@-o-keyframes color-success {
+  0% { color: green; }
+  90% { color: green; }
+  100% { color: black; }
+}
+@keyframes color-success {
+  0% { color: green; }
+  90% { color: green; }
+  100% { color: black; }
+}
+
