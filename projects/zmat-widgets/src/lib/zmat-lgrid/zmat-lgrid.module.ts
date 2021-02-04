@@ -15,10 +15,8 @@ import { ZmatLGridPaginationComponent } from './zmat-lgrid-pagination/zmat-lgrid
 import { ZmatLGridTableComponent } from './zmat-lgrid-table/zmat-lgrid-table.component';
 import { ZmatLGridTdActionComponent } from './zmat-lgrid-td-action/zmat-lgrid-td-action.component';
 import { ZmatLGridTdBoolComponent } from './zmat-lgrid-td-bool/zmat-lgrid-td-bool.component';
-import { ZmatLGridTdEditableSelectComponent } from './zmat-lgrid-td-editable-select/zmat-lgrid-td-editable-select.component';
 import { ZmatLGridTdTextComponent } from './zmat-lgrid-td-text/zmat-lgrid-td-text.component';
 import { ZmatLgridSearchComponent } from './zmat-lgrid-search/zmat-lgrid-search.component';
-import { ZmatLgridTdEditableTextComponent } from './zmat-lgrid-td-editable-text/zmat-lgrid-td-editable-text.component';
 import { dynamicOutlet } from './dynamic-outlet';
 
 @NgModule({
@@ -30,8 +28,6 @@ import { dynamicOutlet } from './dynamic-outlet';
     ZmatLGridTdActionComponent,
     dynamicOutlet,
     ZmatLgridSearchComponent,
-    ZmatLgridTdEditableTextComponent,
-    ZmatLGridTdEditableSelectComponent,
   ],
   imports: [
     CommonModule,
@@ -52,16 +48,12 @@ import { dynamicOutlet } from './dynamic-outlet';
     ZmatLGridPaginationComponent,
     ZmatLGridTdTextComponent,
     ZmatLGridTdBoolComponent,
-    ZmatLGridTdActionComponent,
-    ZmatLGridTdEditableSelectComponent,
-    ZmatLgridTdEditableTextComponent
+    ZmatLGridTdActionComponent
   ],
   entryComponents: [
     ZmatLGridTdTextComponent,
     ZmatLGridTdBoolComponent,
-    ZmatLGridTdActionComponent,
-    ZmatLGridTdEditableSelectComponent,
-    ZmatLgridTdEditableTextComponent
+    ZmatLGridTdActionComponent
   ]
 })
 export class ZmatLGridModule { }

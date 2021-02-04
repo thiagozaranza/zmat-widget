@@ -1,0 +1,29 @@
+@media (min-width: 0px) {
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+@media (min-width: 576px) {
+  mat-form-field {
+    width: 80%;
+  }
+}
+
+@media (min-width: 768px) {
+  mat-form-field {
+    width: 60%;
+  }
+}
+
+@media (min-width: 992px) {
+  mat-form-field {
+    width: 40%;
+  }
+}
+
+@media (min-width: 1200px) {
+  mat-form-field {
+    width: 25%;
+  }
+}

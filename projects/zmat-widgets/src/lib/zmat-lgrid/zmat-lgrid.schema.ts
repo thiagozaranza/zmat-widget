@@ -99,10 +99,15 @@ export enum ZmatLGridSelectionModeType {
   NO_SELECTION = 'none'
 }
 
+export enum ZmatLGridInputMaskType {
+  CURRENCY = 'currency',
+  CPF_CNPJ = 'cpf_cnpj'
+}
+
 export interface IZmatLGridSchema {
   service: any;
   pagination?: IZmatLgridPagination;
-  enableSeach?: boolean;
+  enableSearch?: boolean;
   selectionMode?: ZmatLGridSelectionModeType;
   parsePageParam?: IParseParamFunc;
   parseSortParam?: IParseParamFunc;
@@ -117,6 +122,8 @@ export interface IZmatLGridColumnSchema {
     title: string;
     field: string;
     ordenable?: boolean;
+    editInPlace?: boolean;
+    mask?: ZmatLGridInputMaskType;
     render: any;
     getData: IGetPropertyFunc;
     saveChangesHandler?: any;

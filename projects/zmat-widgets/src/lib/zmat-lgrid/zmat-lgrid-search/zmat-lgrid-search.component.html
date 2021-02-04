@@ -1,6 +1,6 @@
-<mat-form-field>
+<mat-form-field appearance="outline">
   <mat-label>Localizar</mat-label>
-  <input matInput #searchInput type="text" [(ngModel)]="value">
+  <input matInput #searchInput type="text" [(ngModel)]="value" cdkAutofill>
   <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Limpar" (click)="clean()">
     <mat-icon>close</mat-icon>
   </button>

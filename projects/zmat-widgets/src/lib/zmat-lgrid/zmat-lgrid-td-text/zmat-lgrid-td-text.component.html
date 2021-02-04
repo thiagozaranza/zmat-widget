@@ -1,3 +1,21 @@
 <ng-template>
-    <div style="padding-top: 12px; padding-bottom: 10px; padding-left: 18px;">{{ (data)? model.getData(data) : '' }}</div>
+  <!-- <mat-progress-bar mode="indeterminate" [class.show]="saving" [class.hide]="!saving"></mat-progress-bar> -->
+  <mat-spinner diameter="25" [class.show]="saving" [class.hide]="!saving"></mat-spinner>
+  <span [class.error]="error" [class.success]="success"
+    [class.show]="!editing && !saving"
+    [class.hide]="editing || saving"
+    (dblclick)="editMode()">
+    {{ (data)? model.getData(data) : '' }}
+  </span>
+  <div *ngIf="editing" >
+    <form>
+      <mat-form-field  [class.show]="!saving" [class.hide]="saving" appearance="outline">
+        <input #input id="editableInput" matInput
+          (blur)="this.editing = false"
+          (keyup.enter)="doRequest(input.value)">
+      </mat-form-field>
+    </form>
+
+  </div>
 </ng-template>
+

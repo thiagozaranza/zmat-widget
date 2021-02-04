@@ -2,7 +2,7 @@
     <div class="mat-paginator-page-size-label">Items per page:</div>
 </div> -->
 <div class="container">
-    <div class="item pages">{{ from }} a {{ to }} de {{ total }}</div>
+    <div class="item pages" [hidden]="!total">{{ from }} a {{ to }} de {{ total }}</div>
     <div class="item chips">
       <mat-chip-list
         class=""
@@ -20,7 +20,7 @@
     </div>
     <div class="item fill-space"></div>
     <div class="item">
-      <mat-form-field class="grid-limit">
+      <mat-form-field class="grid-limit" [hidden]="!total">
         <mat-label>Limite</mat-label>
         <select matNativeControl [(ngModel)]="selectedLimit" (change)="changeLimit()" >
           <option value="5">5</option>
@@ -31,7 +31,7 @@
         </select>
       </mat-form-field>
     </div>
-    <div class="item">
+    <div class="item" [hidden]="!total">
         <button [disabled]="pagination?.page === 1 || totalPages == 1" (click)="firstPage()" mat-icon-button color="primary" aria-label="Primeira página">
             <mat-icon>first_page</mat-icon>
         </button>
@@ -45,5 +45,4 @@
             <mat-icon>last_page</mat-icon>
         </button>
     </div>
-
 </div>
