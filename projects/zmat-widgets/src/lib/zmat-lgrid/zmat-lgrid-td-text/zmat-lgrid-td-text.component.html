@@ -1,21 +1,50 @@
 <ng-template>
   <!-- <mat-progress-bar mode="indeterminate" [class.show]="saving" [class.hide]="!saving"></mat-progress-bar> -->
-  <mat-spinner diameter="25" [class.show]="saving" [class.hide]="!saving"></mat-spinner>
-  <span [class.error]="error" [class.success]="success"
-    [class.show]="!editing && !saving"
-    [class.hide]="editing || saving"
-    (dblclick)="editMode()">
+  <mat-spinner diameter="25"
+    [class.show]="saving"
+    [class.hide]="!saving"
+    [style.float]="(model.format === 'currency') ? 'right' : 'center'">
+  </mat-spinner>
+  <span *ngIf="!model.format"
+    [class.error]="error"
+    [class.success]="success"
+    [class.show]="!$editing.getValue() && !saving"
+    [class.hide]="$editing.getValue() || saving"
+    (dblclick)="editingMode();">
     {{ (data)? model.getData(data) : '' }}
   </span>
-  <div *ngIf="editing" >
-    <form>
-      <mat-form-field  [class.show]="!saving" [class.hide]="saving" appearance="outline">
-        <input #input id="editableInput" matInput
-          (blur)="this.editing = false"
-          (keyup.enter)="doRequest(input.value)">
+  <span  *ngIf="model.format === 'currency'"
+    [class.error]="error"
+    [class.success]="success"
+    class="currencyText"
+    [class.show]="!$editing.getValue() && !saving"
+    [class.hide]="$editing.getValue() || saving"
+    (dblclick)="editingMode();">
+    {{ model?.getData(data) | currencyFormat }}
+  </span>
+  <div *ngIf="$editing.getValue()">
+      <mat-form-field *ngIf="!model.format"
+        [class.show]="!saving"
+        [class.hide]="saving"
+        appearance="outline">
+        <input #input id="_input"
+          matInput
+          [(ngModel)]="value"
+          (blur)="noEditingMode();"
+          (keyup.enter)="doRequest()">
       </mat-form-field>
-    </form>
-
+      <mat-form-field *ngIf="model.format === 'currency'"
+        class="currencyInput"
+        [class.show]="!saving"
+        [class.hide]="saving"
+        appearance="outline">
+        <input #input id="_input"
+          matInput
+          libZmatCurrencyFormat
+          [(ngModel)]="value"
+          (blur)="noEditingMode();"
+          (keyup.enter)="doRequest()">
+      </mat-form-field>
   </div>
 </ng-template>
 

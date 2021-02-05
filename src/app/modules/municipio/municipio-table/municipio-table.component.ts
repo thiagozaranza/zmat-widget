@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import {
   IZmatLGridSchema,
-  ZmatLGridInputMaskType,
+  ZmatLGridInputFormat,
   ZmatLGridSelectionModeType,
   ZmatLGridTdActionComponent,
   ZmatLGridTdTextComponent
@@ -46,6 +46,8 @@ export class MunicipioTableComponent implements OnInit {
           title: 'ID',
           field: 'id',
           ordenable: true,
+          editable: true,
+          format: ZmatLGridInputFormat.CURRENCY,
           render: ZmatLGridTdTextComponent,
           getData(obj: Municipio): number {
             return obj.id;
@@ -55,8 +57,7 @@ export class MunicipioTableComponent implements OnInit {
           title: 'Municipio',
           field: 'nome',
           ordenable: true,
-          editInPlace: true,
-          mask: ZmatLGridInputMaskType.CPF_CNPJ,
+          editable: true,
           render: ZmatLGridTdTextComponent,
           getData(obj: Municipio): string {
             return obj.nome;

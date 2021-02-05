@@ -4,6 +4,10 @@ span {
   padding-left: 18px;
 }
 
+.mat-form-field {
+  padding-left: 10px;
+}
+
 .hide {
   visibility: hidden;
   display: none;
@@ -19,6 +23,15 @@ span {
   -o-animation: color-error 3s 1;
   -ms-animation: color-error 3s 1;
   animation: color-error 3s 1;
+}
+
+.currencyText {
+  text-align: right;
+}
+
+.currencyInput {
+  max-width: 200px;
+  float: right;
 }
 
 @-webkit-keyframes color-error {

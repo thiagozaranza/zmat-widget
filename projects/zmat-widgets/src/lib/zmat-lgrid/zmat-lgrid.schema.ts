@@ -1,4 +1,3 @@
-import { HttpHandler } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export type IGetPropertyFunc = (item: any) => any;
@@ -99,7 +98,7 @@ export enum ZmatLGridSelectionModeType {
   NO_SELECTION = 'none'
 }
 
-export enum ZmatLGridInputMaskType {
+export enum ZmatLGridInputFormat {
   CURRENCY = 'currency',
   CPF_CNPJ = 'cpf_cnpj'
 }
@@ -122,8 +121,8 @@ export interface IZmatLGridColumnSchema {
     title: string;
     field: string;
     ordenable?: boolean;
-    editInPlace?: boolean;
-    mask?: ZmatLGridInputMaskType;
+    editable?: boolean;
+    format?: ZmatLGridInputFormat;
     render: any;
     getData: IGetPropertyFunc;
     saveChangesHandler?: any;

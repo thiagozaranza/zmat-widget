@@ -1,7 +1,8 @@
-import { CPF_CNPJMask, currencyMask } from '../zmat-lgrid-masks';
-import { Component, TemplateRef, ViewChild } from '@angular/core';
-import { IZmatLGridColumnSchema, ZmatLGridInputMaskType } from '../zmat-lgrid.schema';
+import { Component, ElementRef, TemplateRef, ViewChild } from '@angular/core';
 
+import { BehaviorSubject } from 'rxjs';
+import { IZmatLGridColumnSchema } from '../zmat-lgrid.schema';
+import { MatInput } from '@angular/material/input';
 import { ZmatLGridTableComponent } from '../zmat-lgrid-table/zmat-lgrid-table.component';
 
 @Component({
@@ -11,9 +12,12 @@ import { ZmatLGridTableComponent } from '../zmat-lgrid-table/zmat-lgrid-table.co
 })
 export class ZmatLGridTdTextComponent {
 
-  public text: string = '';
+  @ViewChild('input', {static: false}) input: ElementRef;
 
-  public editing = false;
+  public value: number;
+
+  public $editing = new BehaviorSubject<boolean>(false);
+
   public saving = false;
   public error = false;
   public success = false;
@@ -25,60 +29,50 @@ export class ZmatLGridTdTextComponent {
   model: IZmatLGridColumnSchema;
   data: any;
 
-  constructor(private parent:ZmatLGridTableComponent){
-
+  constructor(private parent: ZmatLGridTableComponent){
+    this.$editing.subscribe(value => {
+      if (value) {
+        this.error = false;
+        this.success = false;
+        this.value = (this.data) ? this.model.getData(this.data) : '';
+        const interval = setInterval(() => {
+          try{
+            this.editableInput = document.getElementById('_input');
+            this.editableInput.focus();
+          } catch {}
+        }, 100);
+      }
+    });
   }
 
-  public editMode(): void {
-
-    if (!this.model.editInPlace) {
-      return;
-    }
-
-    this.editing = true;
-    this.error = false;
-    this.success = false;
-
-    const interval = setInterval (() => {
-      try {
-        this.editableInput = document.getElementById('editableInput');
-        this.applyMask(this.editableInput);
-        this.editableInput.value = (this.data)? this.model.getData(this.data) : '';
-        this.editableInput.focus();
-
-        clearInterval(interval);
-      } catch {}
-    }, 100);
-  }
-
-  private applyMask(input) {
-    switch(this.model.mask) {
-      case ZmatLGridInputMaskType.CURRENCY:
-        currencyMask(input);
-        break;
-      case ZmatLGridInputMaskType.CPF_CNPJ:
-        CPF_CNPJMask(input);
-        break;
+  public editingMode(): void {
+    if (this.model.editable) {
+      this.$editing.next(true);
     }
   }
 
-  public doRequest(value)
+  noEditingMode(): void {
+    this.$editing.next(false);
+  }
+
+  public doRequest(): void
   {
-    if (this.model.getData(this.data) == value) {
-      this.editing = false;
+    if (this.model.getData(this.data) === this.value) {
+      this.noEditingMode();
       return;
     }
 
     this.saving = true;
 
-    let obj = {};
-    obj[this.model.field] = value;
+    const obj = {};
+    obj[this.model.field] = this.value;
 
     this.parent.schema.service.pick(obj).subscribe(
       res => {
         this.error = false;
         this.success = true;
         this.data = obj;
+        this.noEditingMode();
       },
       err => {
         this.saving = false;

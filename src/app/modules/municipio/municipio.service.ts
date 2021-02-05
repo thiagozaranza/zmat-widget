@@ -33,6 +33,7 @@ export class MunicipioService {
   }
 
   pick(obj: any): Observable<any> {
+    console.log(obj);
     return this.http.get<any>(this.getUrl());
   }
 }
