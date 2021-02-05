@@ -3,8 +3,8 @@ import { ZmatInputFormatCurrencyService } from './zmat-input-format-currency.ser
 export class ZmatInputFormatCurrencyHandler {
 
     private inputService: ZmatInputFormatCurrencyService;
-    private onModelChange: Function;
-    private onModelTouched: Function;
+    private onModelChange: (value: number) => void;
+    private onModelTouched: () => void;
     private htmlInputElement: HTMLInputElement;
 
     constructor(htmlInputElement: HTMLInputElement, options: any) {
@@ -13,10 +13,12 @@ export class ZmatInputFormatCurrencyHandler {
     }
 
     handleClick(event: any, chromeAndroid: boolean): void {
-        let selectionRangeLength = Math.abs(this.inputService.inputSelection.selectionEnd - this.inputService.inputSelection.selectionStart);
+        const selectionRangeLength = Math.abs(this.inputService.inputSelection.selectionEnd
+          - this.inputService.inputSelection.selectionStart);
 
-        //if there is no selection and the value is not null, the cursor position will be fixed. if the browser is chrome on android, the cursor will go to the end of the number.
-        if (selectionRangeLength == 0 && !isNaN(this.inputService.value)) {
+        // if there is no selection and the value is not null, the cursor position will be fixed.
+        // if the browser is chrome on android, the cursor will go to the end of the number.
+        if (selectionRangeLength === 0 && !isNaN(this.inputService.value)) {
             this.inputService.fixCursorPosition(chromeAndroid);
         }
     }
@@ -38,20 +40,23 @@ export class ZmatInputFormatCurrencyHandler {
             return;
         }
 
-        let keyCode = this.getNewKeyCode(this.inputService.storedRawValue, this.inputService.rawValue);
-        let rawValueLength = this.inputService.rawValue.length;
-        let rawValueSelectionEnd = this.inputService.inputSelection.selectionEnd;
-        let rawValueWithoutSuffixEndPosition = this.inputService.getRawValueWithoutSuffixEndPosition();
-        let storedRawValueLength = this.inputService.storedRawValue.length;
+        const keyCode = this.getNewKeyCode(this.inputService.storedRawValue, this.inputService.rawValue);
+        const rawValueLength = this.inputService.rawValue.length;
+        const rawValueSelectionEnd = this.inputService.inputSelection.selectionEnd;
+        const rawValueWithoutSuffixEndPosition = this.inputService.getRawValueWithoutSuffixEndPosition();
+        const storedRawValueLength = this.inputService.storedRawValue.length;
         this.inputService.rawValue = this.inputService.storedRawValue;
 
-        if ((rawValueSelectionEnd != rawValueWithoutSuffixEndPosition || Math.abs(rawValueLength - storedRawValueLength) != 1) && storedRawValueLength != 0) {
+        if ((rawValueSelectionEnd !== rawValueWithoutSuffixEndPosition
+            || Math.abs(rawValueLength - storedRawValueLength) !== 1)
+            && storedRawValueLength !== 0
+           ) {
             this.setCursorPosition(event);
             return;
         }
 
         if (rawValueLength < storedRawValueLength) {
-            if (this.inputService.value != 0) {
+            if (this.inputService.value !== 0) {
                 this.inputService.removeNumber(8);
             } else {
                 this.setValue(null);
@@ -67,7 +72,10 @@ export class ZmatInputFormatCurrencyHandler {
                     this.inputService.changeToNegative();
                     break;
                 default:
-                    if (!this.inputService.canInputMoreNumbers || (isNaN(this.inputService.value) && String.fromCharCode(keyCode).match(/\d/) == null)) {
+                    if (!this.inputService.canInputMoreNumbers
+                        || (isNaN(this.inputService.value)
+                        && String.fromCharCode(keyCode).match(/\d/) == null)
+                    ) {
                         return;
                     }
 
@@ -84,23 +92,24 @@ export class ZmatInputFormatCurrencyHandler {
             return;
         }
 
-        let keyCode = event.which || event.charCode || event.keyCode;
+        const keyCode = event.which || event.charCode || event.keyCode;
 
-        if (keyCode == 8 || keyCode == 46 || keyCode == 63272) {
+        if (keyCode === 8 || keyCode === 46 || keyCode === 63272) {
             event.preventDefault();
-            let selectionRangeLength = Math.abs(this.inputService.inputSelection.selectionEnd - this.inputService.inputSelection.selectionStart);
+            const selectionRangeLength = Math.abs(this.inputService.inputSelection.selectionEnd
+              - this.inputService.inputSelection.selectionStart);
 
-            if (selectionRangeLength == this.inputService.rawValue.length || this.inputService.value == 0) {
+            if (selectionRangeLength === this.inputService.rawValue.length || this.inputService.value === 0) {
                 this.setValue(null);
                 this.onModelChange(this.inputService.value);
             }
 
-            if (selectionRangeLength == 0 && !isNaN(this.inputService.value)) {
+            if (selectionRangeLength === 0 && !isNaN(this.inputService.value)) {
                 this.inputService.removeNumber(keyCode);
                 this.onModelChange(this.inputService.value);
             }
 
-            if ((keyCode === 8 || keyCode === 46) && selectionRangeLength != 0 && !isNaN(this.inputService.value)) {
+            if ((keyCode === 8 || keyCode === 46) && selectionRangeLength !== 0 && !isNaN(this.inputService.value)) {
                 this.inputService.removeNumber(keyCode);
                 this.onModelChange(this.inputService.value);
             }
@@ -112,9 +121,9 @@ export class ZmatInputFormatCurrencyHandler {
             return;
         }
 
-        let keyCode = event.which || event.charCode || event.keyCode;
+        const keyCode = event.which || event.charCode || event.keyCode;
 
-        if (keyCode == undefined || [9, 13].indexOf(keyCode) != -1 || this.isArrowEndHomeKeyInFirefox(event)) {
+        if (keyCode === undefined || [9, 13].indexOf(keyCode) !== -1 || this.isArrowEndHomeKeyInFirefox(event)) {
             return;
         }
 
@@ -126,7 +135,10 @@ export class ZmatInputFormatCurrencyHandler {
                 this.inputService.changeToNegative();
                 break;
             default:
-                if (this.inputService.canInputMoreNumbers && (!isNaN(this.inputService.value) || String.fromCharCode(keyCode).match(/\d/) != null)) {
+                if (this.inputService.canInputMoreNumbers
+                  && (!isNaN(this.inputService.value)
+                  || String.fromCharCode(keyCode).match(/\d/) != null)
+                ) {
                     this.inputService.addNumber(keyCode);
                 }
         }
@@ -155,19 +167,19 @@ export class ZmatInputFormatCurrencyHandler {
         this.inputService.updateOptions(options);
     }
 
-    getOnModelChange(): Function {
+    getOnModelChange(): (value: number) => void {
         return this.onModelChange;
     }
 
-    setOnModelChange(callbackFunction: Function): void {
+    setOnModelChange(callbackFunction: () => void): void {
         this.onModelChange = callbackFunction;
     }
 
-    getOnModelTouched(): Function {
+    getOnModelTouched(): () => void {
         return this.onModelTouched;
     }
 
-    setOnModelTouched(callbackFunction: Function) {
+    setOnModelTouched(callbackFunction: () => void): void {
         this.onModelTouched = callbackFunction;
     }
 
@@ -181,29 +193,29 @@ export class ZmatInputFormatCurrencyHandler {
         }
 
         for (let x = 0; x < newString.length; x++) {
-            if (oldString.length == x || oldString[x] != newString[x]) {
+            if (oldString.length === x || oldString[x] !== newString[x]) {
                 return newString.charCodeAt(x);
             }
         }
     }
 
-    private isArrowEndHomeKeyInFirefox(event: any) {
-        if ([35, 36, 37, 38, 39, 40].indexOf(event.keyCode) != -1 && (event.charCode == undefined || event.charCode == 0)) {
+    private isArrowEndHomeKeyInFirefox(event: any): boolean {
+        if ([35, 36, 37, 38, 39, 40].indexOf(event.keyCode) !== -1 && (event.charCode === undefined || event.charCode === 0)) {
             return true;
         }
 
         return false;
     }
 
-    private isReadOnly() {
+    private isReadOnly(): boolean {
         return this.htmlInputElement && this.htmlInputElement.readOnly;
     }
 
     private setCursorPosition(event: any): void {
-        let rawValueWithoutSuffixEndPosition = this.inputService.getRawValueWithoutSuffixEndPosition();
+        const rawValueWithoutSuffixEndPosition = this.inputService.getRawValueWithoutSuffixEndPosition();
 
-        setTimeout(function () {
+        setTimeout(() => {
             event.target.setSelectionRange(rawValueWithoutSuffixEndPosition, rawValueWithoutSuffixEndPosition);
-        }, 0);
+          } , 0);
     }
 }

@@ -70,7 +70,8 @@ export class ZmatInputFormatCurrencyDirective implements AfterViewInit, ControlV
     }
 
     ngOnInit(): void {
-        this.inputHandler = new ZmatInputFormatCurrencyHandler(this.elementRef.nativeElement, (Object as any).assign({}, this.optionsTemplate, this.options));
+        this.inputHandler = new ZmatInputFormatCurrencyHandler(this.elementRef.nativeElement,
+          (Object as any).assign({}, this.optionsTemplate, this.options));
     }
 
     @HostListener('blur', ['$event'])

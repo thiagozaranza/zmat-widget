@@ -22,7 +22,7 @@ export class ZmatInputFormatCurrencyService {
 
     applyMask(isNumber: boolean, rawValue: string): string {
         const { allowNegative, decimal, precision, prefix, suffix, thousands } = this.options;
-        rawValue = isNumber ? new Number(rawValue).toFixed(precision) : rawValue;
+        rawValue = isNumber ? parseFloat(rawValue).toFixed(precision) : rawValue;
         const onlyNumbers = rawValue.replace(/[^0-9]/g, '');
 
         if (!onlyNumbers) {
