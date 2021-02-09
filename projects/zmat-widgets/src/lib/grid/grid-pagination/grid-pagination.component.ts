@@ -1,26 +1,26 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { IZmatLGridSchema, ZmatLgridPagination } from '../zmat-lgrid.schema';
+import { IGridSchema, GridPagination } from '../grid.schema';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
-  selector: 'lib-zmat-lgrid-pagination',
-  templateUrl: './zmat-lgrid-pagination.component.html',
-  styleUrls: ['./zmat-lgrid-pagination.component.css']
+  selector: 'lib-grid-pagination',
+  templateUrl: './grid-pagination.component.html',
+  styleUrls: ['./grid-pagination.component.css']
 })
-export class ZmatLGridPaginationComponent implements OnInit, OnDestroy {
+export class GridPaginationComponent implements OnInit, OnDestroy {
 
   private subscriptions = new Subscription();
 
-  @Input() schema: IZmatLGridSchema;
+  @Input() schema: IGridSchema;
   @Input() $total: Observable<number>;
-  @Input() $pagination: Observable<ZmatLgridPagination>;
+  @Input() $pagination: Observable<GridPagination>;
   @Input() $selection: Observable<any[]>;
 
   @Output() pageChanged: EventEmitter<number> = new EventEmitter();
   @Output() limitChanged: EventEmitter<number> = new EventEmitter();
   @Output() selectionCleaned: EventEmitter<number> = new EventEmitter();
 
-  public pagination: ZmatLgridPagination;
+  public pagination: GridPagination;
   public total: number;
   public from: number = null;
   public to: number = null;

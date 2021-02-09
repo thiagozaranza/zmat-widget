@@ -4,11 +4,11 @@ import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators'
 import { fromEvent } from 'rxjs';
 
 @Component({
-  selector: 'lib-zmat-lgrid-search',
-  templateUrl: './zmat-lgrid-search.component.html',
-  styleUrls: ['./zmat-lgrid-search.component.css']
+  selector: 'lib-grid-search',
+  templateUrl: './grid-search.component.html',
+  styleUrls: ['./grid-search.component.css']
 })
-export class ZmatLgridSearchComponent implements OnInit {
+export class GridSearchComponent implements OnInit {
 
   @Output() searchChanged: EventEmitter<any> = new EventEmitter();
 

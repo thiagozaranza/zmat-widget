@@ -1,14 +1,13 @@
 import { Observable } from 'rxjs';
 
-export type IGetPropertyFunc = (item: any) => any;
-
-export type IRequestItemsFunc = (item: IZmatLgridPagination) => Observable<any>;
-
-export type IParseParamFunc = (param: any) => string;
-
 export declare type SortDirection = 'asc' | 'desc' | '';
 
-export interface IZmatLgridPagination {
+export interface IModel {
+  toJSON(): object;
+  equals(obj: IModel): boolean;
+}
+
+export interface IGridPagination {
   limit?: number;
   sortColumn?: string;
   sortDirection?: SortDirection;
@@ -17,7 +16,22 @@ export interface IZmatLgridPagination {
   seacrch?: string;
 }
 
-export class ZmatLgridPagination implements IZmatLgridPagination {
+export interface IGridPaginateResponse {
+  total: number;
+  data: IModel[];
+}
+
+export interface IGriService {
+  uri: string;
+  getUrl: () => string;
+  getUrlForId(id: number | string): string;
+  paginate(pagination: GridPagination, gridSchema: IGridSchema): Observable<any>;
+  parsePaginateResponse(response): IGridPaginateResponse;
+  patch(obj: any): Observable<any>;
+  pick(obj: any): Observable<any>;
+}
+
+export class GridPagination implements IGridPagination {
 
   constructor(
     public limit = 10,
@@ -30,8 +44,8 @@ export class ZmatLgridPagination implements IZmatLgridPagination {
 
   }
 
-  public static build(obj: IZmatLgridPagination): ZmatLgridPagination {
-    return new ZmatLgridPagination(
+  public static build(obj: IGridPagination): GridPagination {
+    return new GridPagination(
       obj.limit,
       obj.sortColumn,
       obj.sortDirection,
@@ -41,7 +55,7 @@ export class ZmatLgridPagination implements IZmatLgridPagination {
     );
   }
 
-  public toString(gridSchema: IZmatLGridSchema): string {
+  public toString(gridSchema: IGridSchema): string {
     const query = [];
 
     if (this.limit) {
@@ -92,48 +106,47 @@ export class ZmatLgridPagination implements IZmatLgridPagination {
   }
 }
 
-export enum ZmatLGridSelectionModeType {
+export enum GridSelectionModeType {
   MULTI_SELECTION = 'multi',
   SINGLE_SELECTION = 'single',
   NO_SELECTION = 'none'
 }
 
-export enum ZmatLGridInputFormat {
+export enum GridInputFormat {
   CURRENCY = 'currency',
   CPF_CNPJ = 'cpf_cnpj'
 }
 
-export interface IZmatLGridSchema {
-  service: any;
-  pagination?: IZmatLgridPagination;
+export interface IGridSchema {
+  service: IGriService;
+  pagination?: IGridPagination;
   enableSearch?: boolean;
-  selectionMode?: ZmatLGridSelectionModeType;
-  parsePageParam?: IParseParamFunc;
-  parseSortParam?: IParseParamFunc;
-  parseLimitParam?: IParseParamFunc;
-  parseFiltersParam?: IParseParamFunc;
-  parseSearchParam?: IParseParamFunc;
-  columns: IZmatLGridColumnSchema[];
-  actions?: IZmatLGridActionSchema[];
+  selectionMode?: GridSelectionModeType;
+  parsePageParam?: (param: any) => string;
+  parseSortParam?: (param: any) => string;
+  parseLimitParam?: (param: any) => string;
+  parseFiltersParam?: (param: any) => string;
+  parseSearchParam?: (param: any) => string;
+  columns: IGridColumnSchema[];
+  actions?: IGridActionSchema[];
 }
 
-export interface IZmatLGridColumnSchema {
+export interface IGridColumnSchema {
     title: string;
     field: string;
     ordenable?: boolean;
     editable?: boolean;
-    format?: ZmatLGridInputFormat;
+    format?: GridInputFormat;
     render: any;
-    getData: IGetPropertyFunc;
+    getData: (param: IModel) => any;
     saveChangesHandler?: any;
 }
 
-export interface IZmatLGridActionSchema {
+export interface IGridActionSchema {
     title: string;
     label: string;
     color: string;
     icon: string;
     render: any;
-    action: IGetPropertyFunc;
-    getData: IGetPropertyFunc;
+    action: (param: IModel) => any;
 }

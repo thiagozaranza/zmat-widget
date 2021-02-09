@@ -1,46 +1,14 @@
-export interface IMunicipio {
-  id: number;
-  nome: string;
-  uf: string;
-}
-
-export interface IMunicipios {
-  total: number;
+import { IGridPaginateResponse, IModel } from 'projects/zmat-widgets/src/public-api';
+export interface IMunicipiosPaginatedResponse extends IGridPaginateResponse {
   data: Municipio[];
 }
+export class Municipio implements IModel {
 
-export abstract class ZmatModel {
-  static parseResponse(response) {}
-
-}
-
-export class Municipio extends ZmatModel implements IMunicipio  {
   constructor(
-    public id = 0,
-    public nome = '',
-    public uf = ''
-  ) {
-    super();
-  }
-
-  static parseResponse(response): IMunicipios {
-    return {
-      total: response.data.total_results,
-      data: response.data.list.map(item => Municipio.build(item))
-    };
-  }
-
-  static build(municipio: IMunicipio): Municipio {
-    if (!municipio) {
-      return new Municipio();
-    }
-
-    return new Municipio(
-      municipio.id,
-      municipio.nome,
-      municipio.uf
-    );
-  }
+    public id: number,
+    public nome: string,
+    public uf: string
+  ) { }
 
   toJSON(): object {
     const serialized = Object.assign(this);

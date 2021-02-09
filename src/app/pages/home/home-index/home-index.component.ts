@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ZmatLGridSchema, ZmatLGridTdTextComponent } from 'zmat-widgets';
 
 import { Municipio } from 'src/app/modules/municipio/municipio';
 

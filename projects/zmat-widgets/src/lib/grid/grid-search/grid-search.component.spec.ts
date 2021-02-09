@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ZmatLgridSearchComponent } from './zmat-lgrid-search.component';
+import { GridSearchComponent } from './grid-search.component';
 
-describe('ZmatLgridSearchComponent', () => {
-  let component: ZmatLgridSearchComponent;
-  let fixture: ComponentFixture<ZmatLgridSearchComponent>;
+describe('GridSearchComponent', () => {
+  let component: GridSearchComponent;
+  let fixture: ComponentFixture<GridSearchComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ZmatLgridSearchComponent ]
+      declarations: [ GridSearchComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ZmatLgridSearchComponent);
+    fixture = TestBed.createComponent(GridSearchComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

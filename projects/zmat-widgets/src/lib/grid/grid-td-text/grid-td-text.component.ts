@@ -1,16 +1,15 @@
 import { Component, ElementRef, TemplateRef, ViewChild } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
-import { IZmatLGridColumnSchema } from '../zmat-lgrid.schema';
-import { MatInput } from '@angular/material/input';
-import { ZmatLGridTableComponent } from '../zmat-lgrid-table/zmat-lgrid-table.component';
+import { IGridColumnSchema } from '../grid.schema';
+import { GridTableComponent } from '../grid-table/grid-table.component';
 
 @Component({
-  selector: 'lib-zmat-lgrid-td-text',
-  templateUrl: './zmat-lgrid-td-text.component.html',
-  styleUrls: ['./zmat-lgrid-td-text.component.css']
+  selector: 'lib-grid-td-text',
+  templateUrl: './grid-td-text.component.html',
+  styleUrls: ['./grid-td-text.component.css']
 })
-export class ZmatLGridTdTextComponent {
+export class GridTdTextComponent {
 
   @ViewChild('input', {static: false}) input: ElementRef;
 
@@ -26,10 +25,10 @@ export class ZmatLGridTdTextComponent {
 
   @ViewChild(TemplateRef, {static: true}) template: TemplateRef<any>;
 
-  model: IZmatLGridColumnSchema;
+  model: IGridColumnSchema;
   data: any;
 
-  constructor(private parent: ZmatLGridTableComponent){
+  constructor(private parent: GridTableComponent){
     this.$editing.subscribe(value => {
       if (value) {
         this.error = false;

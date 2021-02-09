@@ -1,21 +1,20 @@
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { IZmatLGridColumnSchema, IZmatLGridSchema, ZmatLgridPagination } from '../zmat-lgrid.schema';
+import { IGridColumnSchema, IGridSchema, GridPagination } from '../grid.schema';
 import { map, switchMap, tap } from 'rxjs/operators';
 
-import { Municipio } from 'src/app/modules/municipio/municipio';
-import { ZmatLgridSelection } from '../zmat-lgrid-selection';
+import { GridSelection } from '../grid-selection';
 
 @Component({
-  selector: 'lib-zmat-lgrid-table',
-  templateUrl: './zmat-lgrid-table.component.html',
-  styleUrls: ['./zmat-lgrid-table.component.css']
+  selector: 'lib-grid-table',
+  templateUrl: './grid-table.component.html',
+  styleUrls: ['./grid-table.component.css']
 })
-export class ZmatLGridTableComponent implements OnInit, OnDestroy {
+export class GridTableComponent implements OnInit, OnDestroy {
 
   private subscriptions = new Subscription();
 
-  @Input() schema: IZmatLGridSchema;
+  @Input() schema: IGridSchema;
   @Input() data: any[];
   @Input() enableActions = true;
   @Input() showColumns: string[] = [];
@@ -24,11 +23,11 @@ export class ZmatLGridTableComponent implements OnInit, OnDestroy {
   @Output() selectionChanged: EventEmitter<any[]> = new EventEmitter();
   @Output() throwError: EventEmitter<any> = new EventEmitter();
 
-  private $paginator: BehaviorSubject<ZmatLgridPagination>;
-  public selector: ZmatLgridSelection;
+  private $paginator: BehaviorSubject<GridPagination>;
+  public selector: GridSelection;
 
-  public $pagination: BehaviorSubject<ZmatLgridPagination> = new BehaviorSubject<ZmatLgridPagination>(new ZmatLgridPagination());
-  public pagination: ZmatLgridPagination;
+  public $pagination: BehaviorSubject<GridPagination> = new BehaviorSubject<GridPagination>(new GridPagination());
+  public pagination: GridPagination;
 
   public $total = new BehaviorSubject<number>(null);
 
@@ -44,12 +43,12 @@ export class ZmatLGridTableComponent implements OnInit, OnDestroy {
       });
     }
 
-    this.selector = new ZmatLgridSelection(this.schema);
+    this.selector = new GridSelection(this.schema);
 
     if (this.schema.pagination) {
-      this.$paginator = new BehaviorSubject<ZmatLgridPagination>(ZmatLgridPagination.build(this.schema.pagination));
+      this.$paginator = new BehaviorSubject<GridPagination>(GridPagination.build(this.schema.pagination));
     } else {
-      this.$paginator = new BehaviorSubject<ZmatLgridPagination>(new ZmatLgridPagination());
+      this.$paginator = new BehaviorSubject<GridPagination>(new GridPagination());
     }
 
     this.subscriptions.add(
@@ -59,7 +58,7 @@ export class ZmatLGridTableComponent implements OnInit, OnDestroy {
           this.pagination = zmatPagination;
         }),
         switchMap(zmatPagination => this.schema.service.paginate(zmatPagination, this.schema)),
-        map(apiResponse => Municipio.parseResponse(apiResponse))
+        map(apiResponse => this.schema.service.parsePaginateResponse(apiResponse))
       ).subscribe(
         (parsedApiResponse) => {
           this.data = parsedApiResponse.data;
@@ -102,7 +101,7 @@ export class ZmatLGridTableComponent implements OnInit, OnDestroy {
     return `${this.selector.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
-  orderBy(item: IZmatLGridColumnSchema): void
+  orderBy(item: IGridColumnSchema): void
   {
     this.pagination.sortColumn = item.field;
     this.pagination.sortDirection = (this.pagination.sortDirection === 'asc') ? 'desc' : 'asc';

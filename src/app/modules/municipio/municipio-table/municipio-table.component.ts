@@ -1,11 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import {
-  IZmatLGridSchema,
-  ZmatLGridInputFormat,
-  ZmatLGridSelectionModeType,
-  ZmatLGridTdActionComponent,
-  ZmatLGridTdTextComponent
-} from 'projects/zmat-widgets/src/public-api';
+import { GridInputFormat, GridSelectionModeType, GridTdActionComponent, GridTdTextComponent, IGridSchema } from 'projects/zmat-widgets/src/public-api';
 
 import { Municipio } from '../municipio';
 import { MunicipioService } from '../municipio.service';
@@ -20,7 +14,7 @@ export class MunicipioTableComponent implements OnInit {
   @Output() selectionChanged: EventEmitter<any[]> = new EventEmitter();
   @Output() throwError: EventEmitter<any> = new EventEmitter();
 
-  public gridSchema: IZmatLGridSchema;
+  public gridSchema: IGridSchema;
 
   public data: Municipio[] = [];
 
@@ -29,7 +23,7 @@ export class MunicipioTableComponent implements OnInit {
     this.gridSchema = {
       service: municipioService,
       enableSearch: true,
-      selectionMode: ZmatLGridSelectionModeType.MULTI_SELECTION,
+      selectionMode: GridSelectionModeType.MULTI_SELECTION,
       pagination: {
         page: 1,
         limit: 5,
@@ -47,8 +41,8 @@ export class MunicipioTableComponent implements OnInit {
           field: 'id',
           ordenable: true,
           editable: true,
-          format: ZmatLGridInputFormat.CURRENCY,
-          render: ZmatLGridTdTextComponent,
+          format: GridInputFormat.CURRENCY,
+          render: GridTdTextComponent,
           getData(obj: Municipio): number {
             return obj.id;
           }
@@ -58,7 +52,7 @@ export class MunicipioTableComponent implements OnInit {
           field: 'nome',
           ordenable: true,
           editable: true,
-          render: ZmatLGridTdTextComponent,
+          render: GridTdTextComponent,
           getData(obj: Municipio): string {
             return obj.nome;
           }
@@ -67,7 +61,7 @@ export class MunicipioTableComponent implements OnInit {
           title: 'UF',
           field: 'uf',
           ordenable: false,
-          render: ZmatLGridTdTextComponent,
+          render: GridTdTextComponent,
           getData(obj: Municipio): string {
             return obj.uf;
           }
@@ -79,15 +73,14 @@ export class MunicipioTableComponent implements OnInit {
           label: 'Visualizar dados',
           color: 'primary',
           icon: 'list',
-          render: ZmatLGridTdActionComponent,
+          render: GridTdActionComponent,
           action(obj: Municipio): void {
             console.log('Visualizar dados do município');
             console.log(obj);
-          },
-          getData(): void {}
+          }
         }
       ]
-    }
+    };
   }
 
   ngOnInit(): void {

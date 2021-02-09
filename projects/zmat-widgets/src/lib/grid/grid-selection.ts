@@ -1,15 +1,15 @@
-import { IZmatLGridSchema, ZmatLGridSelectionModeType } from "./zmat-lgrid.schema";
+import { IGridSchema, GridSelectionModeType } from "./grid.schema";
 
 import { BehaviorSubject } from 'rxjs';
 
-export class ZmatLgridSelection {
+export class GridSelection {
 
   public data: any[];
 
   public $selection = new BehaviorSubject<any[]>([]);
   public selection: any[] = [];
 
-  public constructor(private schema: IZmatLGridSchema) {
+  public constructor(private schema: IGridSchema) {
 
   }
 
@@ -32,7 +32,7 @@ export class ZmatLgridSelection {
   }
 
   toggle(row): void {
-    if (this.schema.selectionMode !== ZmatLGridSelectionModeType.MULTI_SELECTION) {
+    if (this.schema.selectionMode !== GridSelectionModeType.MULTI_SELECTION) {
       return;
     }
     if (this.isSelected(row)) {
@@ -45,7 +45,7 @@ export class ZmatLgridSelection {
   }
 
   select(row): void {
-    if (this.schema.selectionMode !== ZmatLGridSelectionModeType.SINGLE_SELECTION) {
+    if (this.schema.selectionMode !== GridSelectionModeType.SINGLE_SELECTION) {
       return;
     }
 
