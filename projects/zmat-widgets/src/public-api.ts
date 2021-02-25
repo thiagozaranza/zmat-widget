@@ -29,7 +29,7 @@ export * from './lib/zmat-map/zmat-map.module';
 export * from './lib/zmat-map/zmat-map.schema';
 export * from './lib/zmat-map/zmat-map/zmat-map.component';
 
-export * from './lib/zmat-select/zmat-select.module';
-export * from './lib/zmat-select/zmat-select-many/zmat-select-many.component';
-export * from './lib/zmat-select/zmat-select-one/zmat-select-one.component';
-export * from './lib/zmat-select/zmat-select-one/zmat-select-one.schema';
+export * from './lib/select/select.module';
+export * from './lib/select/select-many/select-many.component';
+export * from './lib/select/select-one/select-one.component';
+export * from './lib/select/select-one/select-one.schema';

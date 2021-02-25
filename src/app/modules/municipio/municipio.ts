@@ -1,5 +1,6 @@
-import { IGridPaginateResponse, IModel } from 'projects/zmat-widgets/src/public-api';
-export interface IMunicipiosPaginatedResponse extends IGridPaginateResponse {
+import { IModel, IPaginatedResponse } from "projects/zmat-widgets/src/lib/service.schema";
+
+export interface IMunicipiosPaginatedResponse<Municipio> extends IPaginatedResponse<Municipio> {
   data: Municipio[];
 }
 export class Municipio implements IModel {

@@ -1,5 +1,5 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { GridInputFormat, GridSelectionModeType, GridTdActionComponent, GridTdTextComponent, IGridSchema } from 'projects/zmat-widgets/src/public-api';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { GridInputFormat, GridSelectionModeType, GridTableComponent, GridTdActionComponent, GridTdBoolComponent, GridTdTextComponent, IGridSchema } from 'projects/zmat-widgets/src/public-api';
 
 import { Municipio } from '../municipio';
 import { MunicipioService } from '../municipio.service';
@@ -11,17 +11,20 @@ import { MunicipioService } from '../municipio.service';
 })
 export class MunicipioTableComponent implements OnInit {
 
-  @Output() selectionChanged: EventEmitter<any[]> = new EventEmitter();
-  @Output() throwError: EventEmitter<any> = new EventEmitter();
+  @Output() selectionChanged: EventEmitter<Municipio[]> = new EventEmitter();
+  @Output() throwError: EventEmitter<string> = new EventEmitter();
 
-  public gridSchema: IGridSchema;
+  @ViewChild('gridMunicipio', {static: true}) table: GridTableComponent<Municipio>;
+
+  public schema: IGridSchema<Municipio>;
 
   public data: Municipio[] = [];
 
   constructor(municipioService: MunicipioService) {
 
-    this.gridSchema = {
+    this.schema = {
       service: municipioService,
+      autoload: false,
       enableSearch: true,
       selectionMode: GridSelectionModeType.MULTI_SELECTION,
       pagination: {

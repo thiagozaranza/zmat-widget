@@ -30,12 +30,12 @@
             </mat-checkbox>
           </td>
           <td mat-cell *ngFor="let item of schema.columns" (click)="selector.toggle(obj)" (click)="selector.select(obj)">
-              <ng-container *dynamicOutlet="item.render; model: item; data: obj"></ng-container>
+              <ng-container *dynamicOutlet="item.render; schema: item; data: obj"></ng-container>
           </td>
           <td mat-cell *ngIf="enableActions && schema.actions.length > 0" style="padding: 0px;">
               <div class="actions">
                   <div *ngFor="let item of schema.actions">
-                      <ng-container *dynamicOutlet="item.render; model: item; data: obj"></ng-container>
+                      <ng-container *dynamicOutlet="item.render; schema: item; data: obj"></ng-container>
                   </div>
               </div>
           </td>

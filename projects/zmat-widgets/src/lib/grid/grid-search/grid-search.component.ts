@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, tap } from 'rxjs/operators';
 
 import { fromEvent } from 'rxjs';
 
@@ -10,7 +10,7 @@ import { fromEvent } from 'rxjs';
 })
 export class GridSearchComponent implements OnInit {
 
-  @Output() searchChanged: EventEmitter<any> = new EventEmitter();
+  @Output() searchChanged: EventEmitter<string> = new EventEmitter();
 
   @ViewChild('searchInput', { static: true }) searchInput: ElementRef;
 

@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { MunicipioService } from '../municipio.service';
 import { MunicipioTableComponent } from './municipio-table.component';
 
 describe('MunicipioTableComponent', () => {
@@ -8,7 +9,12 @@ describe('MunicipioTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MunicipioTableComponent ]
+      declarations: [
+        MunicipioTableComponent
+      ],
+      providers: [
+        MunicipioService
+      ]
     })
     .compileComponents();
   });

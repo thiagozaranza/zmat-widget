@@ -1,6 +1,6 @@
 <div class="cmp">
   <h4>home-index-component</h4>
-  <app-municipio-table (selectionChanged)="municipioSelecionado($event)"></app-municipio-table>
+  <app-municipio-table #cnpGridMunicipio (selectionChanged)="municipioSelecionado($event)"></app-municipio-table>
   <ul>
     <li *ngFor="let index of municipios">{{ index.nome}}</li>
     </ul>

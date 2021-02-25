@@ -1,19 +1,22 @@
+import { BehaviorSubject, throwError } from 'rxjs';
 import { Component, ElementRef, TemplateRef, ViewChild } from '@angular/core';
+import { IGridCellRender, IGridColumnSchema } from '../grid.schema';
 
-import { BehaviorSubject } from 'rxjs';
-import { IGridColumnSchema } from '../grid.schema';
 import { GridTableComponent } from '../grid-table/grid-table.component';
+import { IModel } from '../../service.schema';
 
 @Component({
   selector: 'lib-grid-td-text',
   templateUrl: './grid-td-text.component.html',
   styleUrls: ['./grid-td-text.component.css']
 })
-export class GridTdTextComponent {
+export class GridTdTextComponent<T extends IModel> implements IGridCellRender<T> {
 
   @ViewChild('input', {static: false}) input: ElementRef;
 
-  public value: number;
+  public value: string | number | boolean;
+  schema: IGridColumnSchema<T>;
+  data: T;
 
   public $editing = new BehaviorSubject<boolean>(false);
 
@@ -25,15 +28,12 @@ export class GridTdTextComponent {
 
   @ViewChild(TemplateRef, {static: true}) template: TemplateRef<any>;
 
-  model: IGridColumnSchema;
-  data: any;
-
-  constructor(private parent: GridTableComponent){
+  constructor(public parent: GridTableComponent<T>){
     this.$editing.subscribe(value => {
       if (value) {
         this.error = false;
         this.success = false;
-        this.value = (this.data) ? this.model.getData(this.data) : '';
+        this.value = (this.data) ? this.schema.getData(this.data) : '';
         const interval = setInterval(() => {
           try{
             this.editableInput = document.getElementById('_input');
@@ -45,7 +45,7 @@ export class GridTdTextComponent {
   }
 
   public editingMode(): void {
-    if (this.model.editable) {
+    if (this.schema.editable) {
       this.$editing.next(true);
     }
   }
@@ -56,21 +56,22 @@ export class GridTdTextComponent {
 
   public doRequest(): void
   {
-    if (this.model.getData(this.data) === this.value) {
+    if (this.schema.getData(this.data) === this.value) {
       this.noEditingMode();
       return;
     }
 
     this.saving = true;
 
-    const obj = {};
-    obj[this.model.field] = this.value;
+    const obj: object = {};
 
-    this.parent.schema.service.pick(obj).subscribe(
+    obj[this.schema.field] = this.value;
+
+    this.parent.schema.service.patch(obj).subscribe(
       res => {
         this.error = false;
         this.success = true;
-        this.data = obj;
+        this.data = res;
         this.noEditingMode();
       },
       err => {

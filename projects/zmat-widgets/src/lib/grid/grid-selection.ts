@@ -1,19 +1,20 @@
-import { IGridSchema, GridSelectionModeType } from "./grid.schema";
+import { GridSelectionModeType, IGridSchema } from './grid.schema';
 
 import { BehaviorSubject } from 'rxjs';
+import { IModel } from '../service.schema';
 
-export class GridSelection {
+export class GridSelection<T extends IModel> {
 
-  public data: any[];
+  public data: T[];
 
-  public $selection = new BehaviorSubject<any[]>([]);
-  public selection: any[] = [];
+  public $selection = new BehaviorSubject<T[]>([]);
+  public selection: T[] = [];
 
-  public constructor(private schema: IGridSchema) {
+  public constructor(private schema: IGridSchema<T>) {
 
   }
 
-  private selectedOnPage(): any[] {
+  private selectedOnPage(): T[] {
     return this.selection.filter(item => this.data.filter(itemA => item.equals(itemA)).length  === 1);
   }
 

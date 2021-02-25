@@ -3,27 +3,27 @@
   <mat-spinner diameter="25"
     [class.show]="saving"
     [class.hide]="!saving"
-    [style.float]="(model.format === 'currency') ? 'right' : 'center'">
+    [style.float]="(schema.format === 'currency') ? 'right' : 'center'">
   </mat-spinner>
-  <span *ngIf="!model.format"
+  <span *ngIf="!schema.format"
     [class.error]="error"
     [class.success]="success"
     [class.show]="!$editing.getValue() && !saving"
     [class.hide]="$editing.getValue() || saving"
     (dblclick)="editingMode();">
-    {{ (data)? model.getData(data) : '' }}
+    {{ (data)? schema.getData(data) : '' }}
   </span>
-  <span  *ngIf="model.format === 'currency'"
+  <span  *ngIf="schema.format === 'currency'"
     [class.error]="error"
     [class.success]="success"
     class="currencyText"
     [class.show]="!$editing.getValue() && !saving"
     [class.hide]="$editing.getValue() || saving"
     (dblclick)="editingMode();">
-    {{ model?.getData(data) | currencyFormat }}
+    {{ schema?.getData(data) | currencyFormat }}
   </span>
   <div *ngIf="$editing.getValue()">
-      <mat-form-field *ngIf="!model.format"
+      <mat-form-field *ngIf="!schema.format"
         [class.show]="!saving"
         [class.hide]="saving"
         appearance="outline">
@@ -33,7 +33,7 @@
           (blur)="noEditingMode();"
           (keyup.enter)="doRequest()">
       </mat-form-field>
-      <mat-form-field *ngIf="model.format === 'currency'"
+      <mat-form-field *ngIf="schema.format === 'currency'"
         class="currencyInput"
         [class.show]="!saving"
         [class.hide]="saving"
@@ -47,4 +47,3 @@
       </mat-form-field>
   </div>
 </ng-template>
-

@@ -1,58 +1,51 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { IGridSchema, GridPagination } from '../grid.schema';
+import { GridPagination, IGridSchema } from '../grid.schema';
 import { Observable, Subscription } from 'rxjs';
+
+import { IModel } from '../../service.schema';
 
 @Component({
   selector: 'lib-grid-pagination',
   templateUrl: './grid-pagination.component.html',
   styleUrls: ['./grid-pagination.component.css']
 })
-export class GridPaginationComponent implements OnInit, OnDestroy {
+export class GridPaginationComponent<T extends IModel> implements OnInit, OnDestroy {
 
   private subscriptions = new Subscription();
 
-  @Input() schema: IGridSchema;
+  @Input() schema: IGridSchema<T>;
   @Input() $total: Observable<number>;
-  @Input() $pagination: Observable<GridPagination>;
-  @Input() $selection: Observable<any[]>;
+  @Input() $pagination: Observable<GridPagination<T>>;
+  @Input() $selection: Observable<T[]>;
 
   @Output() pageChanged: EventEmitter<number> = new EventEmitter();
   @Output() limitChanged: EventEmitter<number> = new EventEmitter();
   @Output() selectionCleaned: EventEmitter<number> = new EventEmitter();
 
-  public pagination: GridPagination;
+  public pagination: GridPagination<T>;
   public total: number;
   public from: number = null;
   public to: number = null;
   public totalPages: number = null;
   public selectedLimit: number = null;
 
-  constructor() {
-
-  }
-
   ngOnInit(): void {
-    this.$pagination?.subscribe(value => {
-      if (!value) {
-        return;
-      }
+    this.subscriptions.add(
+      this.$pagination?.subscribe(value => {
+        this.selectedLimit = this.pagination?.limit;
+        this.totalPages = Math.ceil(this.total / value.limit);
+        this.pagination = value;
+        this.from = (value.page - 1) * value.limit + 1;
+      })
+    ).add(
+      this.$total?.subscribe(value => {
+        this.total = value;
+        this.totalPages = Math.ceil(this.total / this.pagination.limit);
 
-      this.selectedLimit = this.pagination?.limit;
-      this.totalPages = Math.ceil(this.total / value.limit);
-      this.pagination = value;
-      this.from = (value.page - 1) * value.limit + 1;
-    });
-
-    this.$total?.subscribe(value => {
-      if (!value || !this.pagination) {
-        return;
-      }
-      this.total = value;
-      this.totalPages = Math.ceil(this.total / this.pagination.limit);
-
-      const to = (this.pagination.page) * this.pagination.limit;
-      this.to = (to > this.total) ? this.total : to;
-    });
+        const to = (this.pagination.page) * this.pagination.limit;
+        this.to = (to > this.total) ? this.total : to;
+      })
+    );
   }
 
   nextPage(): void {

@@ -1,12 +1,15 @@
 import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { IGridActionRender, IGridActionSchema } from '../grid.schema';
+
+import { IModel } from '../../service.schema';
 
 @Component({
   selector: 'lib-grid-td-action',
   templateUrl: './grid-td-action.component.html',
   styleUrls: ['./grid-td-action.component.css']
 })
-export class GridTdActionComponent {
+export class GridTdActionComponent<T extends IModel> implements IGridActionRender<T> {
   @ViewChild(TemplateRef, {static: true}) template: TemplateRef<any>;
-  model: any;
-  data: any;
+  schema: IGridActionSchema<T>;
+  data: T;
 }

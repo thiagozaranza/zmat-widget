@@ -1,18 +1,19 @@
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter, OnDestroy, AfterViewInit } from '@angular/core';
-import { Subscription, BehaviorSubject } from 'rxjs';
-import { ZmatSelectOneSchema } from './zmat-select-one.schema';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { BehaviorSubject, Subscription } from 'rxjs';
+
 import { MatSelect } from '@angular/material/select';
+import { SelectOneSchema } from './select-one.schema';
 
 @Component({
-  selector: 'zmat-select-one',
-  templateUrl: './zmat-select-one.component.html',
-  styleUrls: ['./zmat-select-one.component.css']
+  selector: 'lib-select-one',
+  templateUrl: './select-one.component.html',
+  styleUrls: ['./select-one.component.css']
 })
-export class ZmatSelectOneComponent implements OnInit, OnDestroy, AfterViewInit {
+export class SelectOneComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private subscriptions = new Subscription();
 
-  @Input() schema: ZmatSelectOneSchema;
+  @Input() schema: SelectOneSchema;
 
   private _data = new BehaviorSubject<any[]>([]);
 
@@ -25,8 +26,8 @@ export class ZmatSelectOneComponent implements OnInit, OnDestroy, AfterViewInit 
     return this._data.getValue();
   }
 
-  private _value = new BehaviorSubject<any>({});  
-  
+  private _value = new BehaviorSubject<any>({});
+
   @Input()
   set value(value) {
     this._value.next(value);
@@ -43,7 +44,7 @@ export class ZmatSelectOneComponent implements OnInit, OnDestroy, AfterViewInit 
   constructor() { }
 
   public itemChanged(event)
-  {    
+  {
     this.changed.emit(event.value);
   }
 

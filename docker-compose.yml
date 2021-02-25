@@ -1,0 +1,10 @@
+version: "3.7"
+services:
+  zmat-showcase:
+    container_name: zmat-showcase
+    image: thiagozaranza/ng-container:11.2.1
+    volumes:
+      - .:/usr/share/nginx/html
+    ports:
+      - "4201:4200"
+

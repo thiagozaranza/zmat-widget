@@ -1,37 +1,19 @@
-import { Observable } from 'rxjs';
+import { IModel, IService } from '../service.schema';
+
+import { GridTableComponent } from './grid-table/grid-table.component';
 
 export declare type SortDirection = 'asc' | 'desc' | '';
 
-export interface IModel {
-  toJSON(): object;
-  equals(obj: IModel): boolean;
-}
-
 export interface IGridPagination {
+  page?: number;
   limit?: number;
   sortColumn?: string;
   sortDirection?: SortDirection;
-  page?: number;
-  filters?: any;
-  seacrch?: string;
+  filters?: object;
+  search?: string;
 }
 
-export interface IGridPaginateResponse {
-  total: number;
-  data: IModel[];
-}
-
-export interface IGriService {
-  uri: string;
-  getUrl: () => string;
-  getUrlForId(id: number | string): string;
-  paginate(pagination: GridPagination, gridSchema: IGridSchema): Observable<any>;
-  parsePaginateResponse(response): IGridPaginateResponse;
-  patch(obj: any): Observable<any>;
-  pick(obj: any): Observable<any>;
-}
-
-export class GridPagination implements IGridPagination {
+export class GridPagination<T extends IModel> implements IGridPagination {
 
   constructor(
     public limit = 10,
@@ -44,18 +26,7 @@ export class GridPagination implements IGridPagination {
 
   }
 
-  public static build(obj: IGridPagination): GridPagination {
-    return new GridPagination(
-      obj.limit,
-      obj.sortColumn,
-      obj.sortDirection,
-      obj.page,
-      obj.filters,
-      obj.seacrch
-    );
-  }
-
-  public toString(gridSchema: IGridSchema): string {
+  public toString(gridSchema: IGridSchema<T>): string {
     const query = [];
 
     if (this.limit) {
@@ -117,36 +88,48 @@ export enum GridInputFormat {
   CPF_CNPJ = 'cpf_cnpj'
 }
 
-export interface IGridSchema {
-  service: IGriService;
+export interface IGridSchema<T extends IModel> {
+  service: IService<T>;
+  autoload?: boolean;
   pagination?: IGridPagination;
   enableSearch?: boolean;
   selectionMode?: GridSelectionModeType;
-  parsePageParam?: (param: any) => string;
-  parseSortParam?: (param: any) => string;
-  parseLimitParam?: (param: any) => string;
-  parseFiltersParam?: (param: any) => string;
-  parseSearchParam?: (param: any) => string;
-  columns: IGridColumnSchema[];
-  actions?: IGridActionSchema[];
+  parsePageParam?: (param: number) => string;
+  parseSortParam?: (param: string) => string;
+  parseLimitParam?: (param: string | number) => string;
+  parseFiltersParam?: (param: object) => string;
+  parseSearchParam?: (param: string) => string;
+  columns: IGridColumnSchema<T>[];
+  actions?: IGridActionSchema<T>[];
 }
 
-export interface IGridColumnSchema {
-    title: string;
-    field: string;
-    ordenable?: boolean;
-    editable?: boolean;
-    format?: GridInputFormat;
-    render: any;
-    getData: (param: IModel) => any;
-    saveChangesHandler?: any;
+export interface IGridCellRender<T extends IModel> {
+  parent: GridTableComponent<T>;
+  schema: IGridColumnSchema<T>;
+  data: T;
 }
 
-export interface IGridActionSchema {
-    title: string;
-    label: string;
-    color: string;
-    icon: string;
-    render: any;
-    action: (param: IModel) => any;
+export interface IGridActionRender<T> {
+  schema: IGridActionSchema<T>;
+  data: T;
+}
+
+export interface IGridColumnSchema<T extends IModel> {
+  title: string;
+  field: string;
+  ordenable?: boolean;
+  editable?: boolean;
+  format?: GridInputFormat;
+  render: new(parent: GridTableComponent<T>) => IGridCellRender<T>;
+  getData: (model: T) => string | number | boolean;
+  saveChangesHandler?: () => void;
+}
+
+export interface IGridActionSchema<T> {
+  title: string;
+  label: string;
+  color: string;
+  icon: string;
+  render: new() => IGridActionRender<T>;
+  action: (model: T) => void;
 }

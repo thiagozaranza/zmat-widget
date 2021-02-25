@@ -1,7 +1,7 @@
-import { GridPagination, IGriService, IGridSchema } from 'projects/zmat-widgets/src/public-api';
 import { IMunicipiosPaginatedResponse, Municipio } from './municipio';
 
 import { HttpClient } from '@angular/common/http';
+import { IService } from 'projects/zmat-widgets/src/lib/service.schema';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class MunicipioService implements IGriService {
+export class MunicipioService implements IService<Municipio> {
 
   uri = 'rest/adm/municipio';
 
@@ -25,22 +25,22 @@ export class MunicipioService implements IGriService {
     return `${this.getUrl()}/${id}`;
   }
 
-  paginate(pagination: GridPagination, gridSchema: IGridSchema): Observable<any> {
-    return this.http.get<any>(this.getUrl() + '?' + pagination.toString(gridSchema));
+  get(query: string): Observable<Municipio> {
+    return this.http.get<any>(this.getUrl() + '?' + query);
   }
 
-  parsePaginateResponse(response): IMunicipiosPaginatedResponse {
+  parsePaginatedResponse(response): IMunicipiosPaginatedResponse<Municipio> {
     return {
       total: response.data.total_results,
       data: response.data.list.map(item => new Municipio(item.id, item.nome, item.uf))
     };
   }
 
-  patch(obj: any): Observable<any> {
+  patch(obj: any): Observable<Municipio> {
     return this.http.patch<any>(this.getUrl(), obj);
   }
 
-  pick(obj: any): Observable<any> {
+  pick(obj: any): Observable<Municipio> {
     return this.http.get<any>(this.getUrl());
   }
 }
