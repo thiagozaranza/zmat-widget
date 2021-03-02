@@ -1,10 +1,11 @@
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { GridPagination, IGridColumnSchema, IGridPagination, IGridSchema } from '../grid.schema';
+import { IGridColumnSchema, IGridSchema } from '../grid.schema';
+import { IPaginator, Paginator } from '../../commons/paginator';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 
 import { GridSelection } from '../grid-selection';
-import { IModel } from '../../service.schema';
+import { IModel } from '../../commons/service.schema';
 
 @Component({
   selector: 'lib-grid-table',
@@ -24,15 +25,15 @@ export class GridTableComponent<T extends IModel> implements OnInit, OnDestroy {
   @Output() selectionChanged: EventEmitter<T[]> = new EventEmitter();
   @Output() throwError: EventEmitter<string> = new EventEmitter();
 
-  private $paginator: BehaviorSubject<GridPagination<T>> = new BehaviorSubject<GridPagination<T>>(null);
+  private $paginator: BehaviorSubject<Paginator<T>> = new BehaviorSubject<Paginator<T>>(null);
   public selector: GridSelection<T>;
 
-  public $pagination: BehaviorSubject<GridPagination<T>> = new BehaviorSubject<GridPagination<T>>(new GridPagination());
-  public pagination: GridPagination<T>;
+  public $pagination: BehaviorSubject<Paginator<T>> = new BehaviorSubject<Paginator<T>>(null);
+  public pagination: Paginator<T>;
 
   public $total = new BehaviorSubject<number>(null);
 
-  public loading: boolean;
+  public loading = false;
 
   ngOnInit(): void
   {
@@ -42,10 +43,12 @@ export class GridTableComponent<T extends IModel> implements OnInit, OnDestroy {
       });
     }
 
+    this.pagination = (this.schema.pagination) ? new Paginator(this.schema.pagination) : new Paginator(null);
+
     this.selector = new GridSelection(this.schema);
 
-    if (this.schema.autoload === true && this.schema.pagination) {
-      this.paginate(this.schema.pagination);
+    if (this.schema.autoload) {
+      this.paginate(this.pagination);
     }
 
     this.subscriptions.add(
@@ -75,19 +78,13 @@ export class GridTableComponent<T extends IModel> implements OnInit, OnDestroy {
     );
   }
 
-  paginate(pagination?: IGridPagination): void {
+  paginate(pagination?: IPaginator): void {
 
     if (!pagination && this.schema.pagination) {
       pagination = this.schema.pagination;
     }
 
-    this.$paginator.next(new GridPagination(
-      pagination.limit,
-      pagination.sortColumn,
-      pagination.sortDirection,
-      pagination.page,
-      pagination.filters,
-      pagination.search)
+    this.$paginator.next(new Paginator(pagination)
     );
   }
 

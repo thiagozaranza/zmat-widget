@@ -1,7 +1,7 @@
 import { GridSelectionModeType, IGridSchema } from './grid.schema';
 
 import { BehaviorSubject } from 'rxjs';
-import { IModel } from '../service.schema';
+import { IModel } from '../commons/service.schema';
 
 export class GridSelection<T extends IModel> {
 

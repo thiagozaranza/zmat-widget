@@ -10,7 +10,7 @@ import { MunicipioTableComponent } from 'src/app/modules/municipio/municipio-tab
 })
 export class HomeIndexComponent implements AfterContentInit {
 
-  @ViewChild('cnpGridMunicipio', {static: true}) grid: MunicipioTableComponent;
+  @ViewChild('cmpGridMunicipio', {static: true}) grid: MunicipioTableComponent;
 
   public municipios: Municipio[] = [];
 
@@ -19,12 +19,14 @@ export class HomeIndexComponent implements AfterContentInit {
   }
 
   ngAfterContentInit(): void {
-    this.grid.table.paginate({
-      page: 2
-    });
+    // this.grid.table.paginate({ page: 2 });
+  }
+
+  municipiosSelecionados($event): void {
+    this.municipios = $event;
   }
 
   municipioSelecionado($event): void {
-    this.municipios = $event;
+    this.municipios = [$event];
   }
 }

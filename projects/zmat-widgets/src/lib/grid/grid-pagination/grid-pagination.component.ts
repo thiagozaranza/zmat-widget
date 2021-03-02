@@ -1,8 +1,10 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { GridPagination, IGridSchema } from '../grid.schema';
 import { Observable, Subscription } from 'rxjs';
 
-import { IModel } from '../../service.schema';
+import { IGridSchema } from '../grid.schema';
+import { IModel } from '../../commons/service.schema';
+import { Paginator } from '../../commons/paginator';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'lib-grid-pagination',
@@ -15,14 +17,14 @@ export class GridPaginationComponent<T extends IModel> implements OnInit, OnDest
 
   @Input() schema: IGridSchema<T>;
   @Input() $total: Observable<number>;
-  @Input() $pagination: Observable<GridPagination<T>>;
+  @Input() $pagination: Observable<Paginator<T>>;
   @Input() $selection: Observable<T[]>;
 
   @Output() pageChanged: EventEmitter<number> = new EventEmitter();
   @Output() limitChanged: EventEmitter<number> = new EventEmitter();
   @Output() selectionCleaned: EventEmitter<number> = new EventEmitter();
 
-  public pagination: GridPagination<T>;
+  public pagination: Paginator<T>;
   public total: number;
   public from: number = null;
   public to: number = null;
@@ -31,18 +33,22 @@ export class GridPaginationComponent<T extends IModel> implements OnInit, OnDest
 
   ngOnInit(): void {
     this.subscriptions.add(
-      this.$pagination?.subscribe(value => {
+      this.$pagination?.pipe(
+        filter(p => p !== null)
+      ).subscribe(value => {
         this.selectedLimit = this.pagination?.limit;
         this.totalPages = Math.ceil(this.total / value.limit);
         this.pagination = value;
         this.from = (value.page - 1) * value.limit + 1;
       })
     ).add(
-      this.$total?.subscribe(value => {
+      this.$total?.pipe(
+        filter(t => t !== null)
+      ).subscribe(value => {
         this.total = value;
         this.totalPages = Math.ceil(this.total / this.pagination.limit);
 
-        const to = (this.pagination.page) * this.pagination.limit;
+        const to = this.pagination.page * this.pagination.limit;
         this.to = (to > this.total) ? this.total : to;
       })
     );

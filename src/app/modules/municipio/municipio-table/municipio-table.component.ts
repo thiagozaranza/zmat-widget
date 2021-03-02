@@ -1,5 +1,13 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { GridInputFormat, GridSelectionModeType, GridTableComponent, GridTdActionComponent, GridTdBoolComponent, GridTdTextComponent, IGridSchema } from 'projects/zmat-widgets/src/public-api';
+import {
+  GridInputFormat,
+  GridSelectionModeType,
+  GridTableComponent,
+  GridTdActionComponent,
+  GridTdBoolComponent,
+  GridTdTextComponent,
+  IGridSchema
+} from 'projects/zmat-widgets/src/public-api';
 
 import { Municipio } from '../municipio';
 import { MunicipioService } from '../municipio.service';
@@ -24,12 +32,12 @@ export class MunicipioTableComponent implements OnInit {
 
     this.schema = {
       service: municipioService,
-      autoload: false,
+      autoload: true,
       enableSearch: true,
       selectionMode: GridSelectionModeType.MULTI_SELECTION,
       pagination: {
         page: 1,
-        limit: 5,
+        limit: 10,
         sortColumn: 'uf',
         filters: {
           uf: 'CE'

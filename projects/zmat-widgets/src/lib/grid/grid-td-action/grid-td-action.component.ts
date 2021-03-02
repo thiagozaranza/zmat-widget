@@ -1,7 +1,7 @@
 import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { IGridActionRender, IGridActionSchema } from '../grid.schema';
 
-import { IModel } from '../../service.schema';
+import { IModel } from '../../commons/service.schema';
 
 @Component({
   selector: 'lib-grid-td-action',

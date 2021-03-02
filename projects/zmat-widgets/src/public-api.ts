@@ -2,7 +2,7 @@
  * Public API Surface of zmat-widgets
  */
 
-export * from './lib/geom.model';
+export * from './lib/commons/geom.model';
 
 export * from './lib/zmat-chart/zmat-chart.module';
 export * from './lib/zmat-chart/zmap-chart.schema';

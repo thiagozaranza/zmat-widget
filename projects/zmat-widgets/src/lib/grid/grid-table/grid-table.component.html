@@ -1,54 +1,50 @@
-<div class="cmp">
-  <h4>table-grid-component</h4>
-  <lib-grid-search *ngIf="this.schema.enableSearch === true" (searchChanged)="changeSearch($event)"></lib-grid-search>
-  <mat-progress-bar mode="indeterminate" [class.show]="loading" [class.hide]="!loading"></mat-progress-bar>
-  <table>
-      <tr>
-          <th mat-header-cell *ngIf="schema.selectionMode === 'multi' && data?.length > 1" >
-            <mat-checkbox (change)="$event ? selector.masterToggle() : null"
-                        [checked]="selector.isAllSelected()"
-                        [indeterminate]="selector.isSomeSelected()"
-                        [aria-label]="checkboxLabel()">
-            </mat-checkbox>
-          </th>
-          <th mat-header-cell *ngFor="let item of schema.columns">
-              <button *ngIf="item.ordenable" mat-button (click)="orderBy(item)">
-                  {{ item.title }}
-                  <mat-icon *ngIf="pagination && item.field === pagination.sortColumn && pagination.sortDirection === 'desc'">arrow_upward</mat-icon>
-                  <mat-icon *ngIf="pagination && item.field === pagination.sortColumn && pagination.sortDirection === 'asc'">arrow_downward</mat-icon>
-              </button>
-              <span *ngIf="!item.ordenable">{{ item.title }}</span>
-          </th>
-          <th mat-header-cell *ngIf="enableActions && schema.actions.length > 0">Ações</th>
-      </tr>
-      <tr *ngFor="let obj of data" [class.selected]="schema.selectionMode === 'single' && selector.selection.length == 1 && selector.selection[0].equals(obj)">
-          <td mat-cell *ngIf="schema.selectionMode === 'multi'">
-            <mat-checkbox (click)="$event.stopPropagation()"
-                          (change)="$event ? selector.toggle(obj) : null"
-                          [checked]="selector.isSelected(obj)"
-                          [aria-label]="checkboxLabel(obj)">
-            </mat-checkbox>
-          </td>
-          <td mat-cell *ngFor="let item of schema.columns" (click)="selector.toggle(obj)" (click)="selector.select(obj)">
-              <ng-container *dynamicOutlet="item.render; schema: item; data: obj"></ng-container>
-          </td>
-          <td mat-cell *ngIf="enableActions && schema.actions.length > 0" style="padding: 0px;">
-              <div class="actions">
-                  <div *ngFor="let item of schema.actions">
-                      <ng-container *dynamicOutlet="item.render; schema: item; data: obj"></ng-container>
-                  </div>
-              </div>
-          </td>
-      </tr>
-  </table>
-  <lib-grid-pagination
-    [schema]="schema"
-    [$pagination]="$pagination"
-    [$selection]="selector.$selection"
-    (selectionCleaned)="selector.cleanSelection()"
-    [$total]="$total"
-    (pageChanged)="changedPage($event)"
-    (limitChanged)="changedLimit($event)">
-  </lib-grid-pagination>
-</div>
-
+<lib-grid-search *ngIf="this.schema.enableSearch === true" (searchChanged)="changeSearch($event)"></lib-grid-search>
+<mat-progress-bar mode="indeterminate" [class.show]="loading" [class.hide]="!loading"></mat-progress-bar>
+<table>
+    <tr>
+        <th mat-header-cell *ngIf="schema.selectionMode === 'multi' && data?.length > 1" >
+          <mat-checkbox (change)="$event ? selector.masterToggle() : null"
+                      [checked]="selector.isAllSelected()"
+                      [indeterminate]="selector.isSomeSelected()"
+                      [aria-label]="checkboxLabel()">
+          </mat-checkbox>
+        </th>
+        <th mat-header-cell *ngFor="let item of schema.columns">
+            <button *ngIf="item.ordenable" mat-button (click)="orderBy(item)">
+                {{ item.title }}
+                <mat-icon *ngIf="pagination && item.field === pagination.sortColumn && pagination.sortDirection === 'desc'">arrow_upward</mat-icon>
+                <mat-icon *ngIf="pagination && item.field === pagination.sortColumn && pagination.sortDirection === 'asc'">arrow_downward</mat-icon>
+            </button>
+            <span *ngIf="!item.ordenable">{{ item.title }}</span>
+        </th>
+        <th mat-header-cell *ngIf="enableActions && schema.actions.length > 0">Ações</th>
+    </tr>
+    <tr *ngFor="let obj of data" [class.selected]="schema.selectionMode === 'single' && selector.selection.length == 1 && selector.selection[0].equals(obj)">
+        <td mat-cell *ngIf="schema.selectionMode === 'multi'">
+          <mat-checkbox (click)="$event.stopPropagation()"
+                        (change)="$event ? selector.toggle(obj) : null"
+                        [checked]="selector.isSelected(obj)"
+                        [aria-label]="checkboxLabel(obj)">
+          </mat-checkbox>
+        </td>
+        <td mat-cell *ngFor="let item of schema.columns" (click)="selector.toggle(obj)" (click)="selector.select(obj)">
+            <ng-container *dynamicOutlet="item.render; schema: item; data: obj"></ng-container>
+        </td>
+        <td mat-cell *ngIf="enableActions && schema.actions.length > 0" style="padding: 0px;">
+            <div class="actions">
+                <div *ngFor="let item of schema.actions">
+                    <ng-container *dynamicOutlet="item.render; schema: item; data: obj"></ng-container>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+<lib-grid-pagination
+  [schema]="schema"
+  [$pagination]="$pagination"
+  [$selection]="selector.$selection"
+  (selectionCleaned)="selector.cleanSelection()"
+  [$total]="$total"
+  (pageChanged)="changedPage($event)"
+  (limitChanged)="changedLimit($event)">
+</lib-grid-pagination>

@@ -1,9 +1,9 @@
-import { BehaviorSubject, throwError } from 'rxjs';
 import { Component, ElementRef, TemplateRef, ViewChild } from '@angular/core';
 import { IGridCellRender, IGridColumnSchema } from '../grid.schema';
 
+import { BehaviorSubject } from 'rxjs';
 import { GridTableComponent } from '../grid-table/grid-table.component';
-import { IModel } from '../../service.schema';
+import { IModel } from '../../commons/service.schema';
 
 @Component({
   selector: 'lib-grid-td-text',

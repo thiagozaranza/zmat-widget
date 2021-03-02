@@ -1,8 +1,8 @@
-import { IMunicipiosPaginatedResponse, Municipio } from './municipio';
+import { IPaginatedResponse, IService } from 'projects/zmat-widgets/src/lib/commons/service.schema';
 
 import { HttpClient } from '@angular/common/http';
-import { IService } from 'projects/zmat-widgets/src/lib/service.schema';
 import { Injectable } from '@angular/core';
+import { Municipio } from './municipio';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -29,7 +29,7 @@ export class MunicipioService implements IService<Municipio> {
     return this.http.get<any>(this.getUrl() + '?' + query);
   }
 
-  parsePaginatedResponse(response): IMunicipiosPaginatedResponse<Municipio> {
+  parsePaginatedResponse(response): IPaginatedResponse<Municipio> {
     return {
       total: response.data.total_results,
       data: response.data.list.map(item => new Municipio(item.id, item.nome, item.uf))

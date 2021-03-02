@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { IGridCellRender, IGridColumnSchema } from './grid.schema';
 
-import { IModel } from '../service.schema';
+import { IModel } from '../commons/service.schema';
 
 // tslint:disable-next-line: directive-selector
 @Directive({selector: '[dynamicOutlet]'})

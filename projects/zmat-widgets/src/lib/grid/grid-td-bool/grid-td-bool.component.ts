@@ -2,7 +2,7 @@ import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { IGridCellRender, IGridColumnSchema } from '../grid.schema';
 
 import { GridTableComponent } from '../grid-table/grid-table.component';
-import { IModel } from '../../service.schema';
+import { IModel } from '../../commons/service.schema';
 
 @Component({
   selector: 'lib-grid-td-bool',

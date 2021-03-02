@@ -1,0 +1,13 @@
+.hide {
+  visibility: hidden;
+  display: none;
+}
+.show {
+  visibility: display;
+  display: block;
+}
+
+.mat-progress-bar {
+  position: relative;
+  top: -10
+}

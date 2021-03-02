@@ -1,1 +1,19 @@
-<p>autocomplete works!</p>
+<mat-form-field appearance="outline">
+  <mat-label>{{ schema.label }}</mat-label>
+  <mat-progress-bar mode="indeterminate" [class.show]="loading" [class.hide]="!loading"></mat-progress-bar>
+  <input type="text"
+    [placeholder]="schema.placeholder"
+    aria-label=""
+    matInput
+    [formControl]="formControl"
+    [matAutocomplete]="auto">
+  <mat-autocomplete
+    autoActiveFirstOption
+    #auto="matAutocomplete"
+    (optionSelected)="optionSelected($event)"
+  >
+    <mat-option *ngFor="let option of $filteredOptions | async" [value]="option.getName()">
+      {{option.getName()}}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
