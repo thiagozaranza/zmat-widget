@@ -1,10 +1,21 @@
 <div style="padding: 20px;">
-  <p>
-    <app-municipio-autocomplete #cmpAutocompleteMunicipio
-      (selectionChanged)="municipioSelecionado($event)"
-      (throwError)="throwError($event)">
-    </app-municipio-autocomplete>
-  </p>
+  <div class="row">
+    <div class="col-md-3">
+      <app-municipio-autocomplete #cmpAutocompleteMunicipio
+        (selectionChanged)="municipioSelecionado($event)"
+        (throwError)="throwError($event)">
+      </app-municipio-autocomplete>
+    </div>
+    <div class="col-md-3">
+      <datepicker-day [schema]="datepickerDaySchema" (selected)="diaSelecionado($event)"></datepicker-day>
+    </div>
+    <div class="col-md-3">
+      <datepicker-month [schema]="datepickerMonthSchema" (selected)="mesSelecionado($event)"></datepicker-month>
+    </div>
+    <div class="col-md-3">
+      <datepicker-year [schema]="datepickerYearSchema" (selected)="anoSelecionado($event)"></datepicker-year>
+    </div>
+  </div>
   <app-municipio-table #cmpGridMunicipio
     (selectionChanged)="municipiosSelecionados($event)"
     (throwError)="throwError($event)">

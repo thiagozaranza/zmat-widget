@@ -1,7 +1,7 @@
-import { BehaviorSubject, Observable, Subscription, from, of } from 'rxjs';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IPaginator, Paginator } from '../../commons/paginator';
-import { filter, map, startWith, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 
 import { FormControl } from '@angular/forms';
 import { IAutocompleteSchema } from '../autocomplete.schema';
@@ -11,7 +11,8 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 @Component({
   selector: 'lib-autocomplete',
   templateUrl: './autocomplete.component.html',
-  styleUrls: ['./autocomplete.component.css']
+  styleUrls: ['./autocomplete.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AutocompleteComponent<T extends IModel> implements OnInit {
 

@@ -1,0 +1,11 @@
+<mat-form-field [class]="getPanelClasses()">
+  <input matInput [min]="schema.min"
+                  [max]="schema.max"
+                  [matDatepicker]="dp"
+                  placeholder="{{ schema.placeholder }}"
+                  [formControl]="date"
+                  (keyup)="keyUp($event)"
+                  (dateChange)="chosenDayHandler($event, dp)">
+  <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+  <mat-datepicker #dp startView="multi-year"></mat-datepicker>
+</mat-form-field>

@@ -1,5 +1,7 @@
 import { AfterContentInit, Component, ViewChild } from '@angular/core';
 
+import { IDatepickerSchema } from 'projects/zmat-widgets/src/public-api';
+import { Moment } from 'moment';
 import { Municipio } from 'src/app/modules/municipio/municipio';
 import { MunicipioTableComponent } from 'src/app/modules/municipio/municipio-table/municipio-table.component';
 import { ToastService } from 'projects/zmat-widgets/src/lib/toast/toast.service';
@@ -15,8 +17,31 @@ export class HomeIndexComponent implements AfterContentInit {
 
   public municipios: Municipio[] = [];
 
-  constructor(private toastService: ToastService) {
+  public datepickerDaySchema: IDatepickerSchema = {
+    placeholder: 'Selecione um dia',
+    value: new Date(),
+    min: new Date('01/01/2000'),
+    max: new Date(),
+    panelClass: 'datepicker'
+  };
 
+  public datepickerMonthSchema: IDatepickerSchema = {
+    placeholder: 'Selecione um mês',
+    value: new Date(),
+    min: new Date('01/01/2000'),
+    max: new Date(),
+    panelClass: 'datepicker'
+  };
+
+  public datepickerYearSchema: IDatepickerSchema = {
+    placeholder: 'Selecione um ano',
+    value: new Date(),
+    min: new Date('01/01/2000'),
+    max: new Date(),
+    panelClass: 'datepicker'
+  };
+
+  constructor(private toastService: ToastService) {
   }
 
   ngAfterContentInit(): void {
@@ -32,6 +57,18 @@ export class HomeIndexComponent implements AfterContentInit {
   municipioSelecionado($event: Municipio): void {
     this.toastService.info($event.getName());
     this.municipios = [$event];
+  }
+
+  diaSelecionado($event: Moment): void {
+    this.toastService.textoDark($event.toISOString());
+  }
+
+  mesSelecionado($event: Moment): void {
+    this.toastService.textoDark($event.toISOString());
+  }
+
+  anoSelecionado($event: Moment): void {
+    this.toastService.textoDark($event.toISOString());
   }
 
   throwError($event): void {
