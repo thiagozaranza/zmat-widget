@@ -9,8 +9,10 @@ import {
   IGridSchema
 } from 'projects/zmat-widgets/src/public-api';
 
+import { HttpErrorResponse } from '@angular/common/http';
 import { Municipio } from '../municipio';
 import { MunicipioService } from '../municipio.service';
+import { ToastService } from 'projects/zmat-widgets/src/lib/toast/toast.service';
 
 @Component({
   selector: 'app-municipio-table',
@@ -28,7 +30,7 @@ export class MunicipioTableComponent implements OnInit {
 
   public data: Municipio[] = [];
 
-  constructor(municipioService: MunicipioService) {
+  constructor(municipioService: MunicipioService, toastService: ToastService) {
 
     this.schema = {
       service: municipioService,
@@ -86,7 +88,7 @@ export class MunicipioTableComponent implements OnInit {
           icon: 'list',
           render: GridTdActionComponent,
           action(obj: Municipio): void {
-            console.log('Visualizar dados do município');
+            toastService.info('Visualizar dados do município ' + obj.getName());
             console.log(obj);
           }
         }
@@ -94,14 +96,13 @@ export class MunicipioTableComponent implements OnInit {
     };
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   changeSelection($event): void {
     this.selectionChanged.emit($event);
   }
 
-  err($event): void {
-    this.throwError.emit($event);
+  err($event: HttpErrorResponse): void {
+    this.throwError.emit($event.message);
   }
 }

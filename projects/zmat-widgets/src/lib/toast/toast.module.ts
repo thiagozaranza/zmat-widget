@@ -1,13 +1,26 @@
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
+import { TOAST_CONFIG_TOKEN, defaultToastConfig } from './toast.schema';
+
 import { CommonModule } from '@angular/common';
-import { ToastComponent } from './toast/toast.component';
-
-
 
 @NgModule({
-  declarations: [ToastComponent],
+  declarations: [
+
+  ],
   imports: [
     CommonModule
   ]
 })
-export class ToastModule { }
+export class ToastModule {
+  public static forRoot(config = defaultToastConfig): ModuleWithProviders<ToastModule> {
+    return {
+      ngModule: ToastModule,
+      providers: [
+        {
+          provide: TOAST_CONFIG_TOKEN,
+          useValue: config,
+        },
+      ],
+    };
+  }
+}

@@ -23,6 +23,7 @@
     "@angular/platform-browser": "~11.1.0",
     "@angular/platform-browser-dynamic": "~11.1.0",
     "@angular/router": "~11.1.0",
+    "bootstrap": "^4.5.3",
     "chart.js": "^2.9.3",
     "moment": "^2.27.0",
     "ol": "^6.4.3",

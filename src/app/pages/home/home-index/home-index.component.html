@@ -1,7 +1,15 @@
-<p>
-  <app-municipio-autocomplete #cmpAutocompleteMunicipio (selectionChanged)="municipioSelecionado($event)"></app-municipio-autocomplete>
-</p>
-<app-municipio-table #cmpGridMunicipio (selectionChanged)="municipiosSelecionados($event)"></app-municipio-table>
-<ul>
-  <li *ngFor="let index of municipios">{{ index.nome}}</li>
-</ul>
+<div style="padding: 20px;">
+  <p>
+    <app-municipio-autocomplete #cmpAutocompleteMunicipio
+      (selectionChanged)="municipioSelecionado($event)"
+      (throwError)="throwError($event)">
+    </app-municipio-autocomplete>
+  </p>
+  <app-municipio-table #cmpGridMunicipio
+    (selectionChanged)="municipiosSelecionados($event)"
+    (throwError)="throwError($event)">
+  </app-municipio-table>
+  <ul>
+    <li *ngFor="let index of municipios">{{ index.nome}}</li>
+  </ul>
+</div>
