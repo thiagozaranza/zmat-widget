@@ -84,4 +84,8 @@ export class GridTdTextComponent<T extends IModel> implements IGridCellRender<T>
       () => this.saving = false
     );
   }
+
+  getNumberValue(): number {
+    return parseFloat(this.schema?.getData(this.data));
+  }
 }

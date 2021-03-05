@@ -20,7 +20,7 @@
     [class.show]="!$editing.getValue() && !saving"
     [class.hide]="$editing.getValue() || saving"
     (dblclick)="editingMode();">
-    {{ schema?.getData(data) | currencyFormat }}
+    {{ getNumberValue() | currencyFormater }}
   </span>
   <div *ngIf="$editing.getValue()">
       <mat-form-field *ngIf="!schema.format"
@@ -40,7 +40,7 @@
         appearance="outline">
         <input #input id="_input"
           matInput
-          libZmatCurrencyFormat
+          libCurrencyFormat
           [(ngModel)]="value"
           (blur)="noEditingMode();"
           (keyup.enter)="doRequest()">

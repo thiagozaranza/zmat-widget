@@ -13,29 +13,29 @@ import {
   Optional
 } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validator } from '@angular/forms';
-import { CurrencyFormatConfig, CURRENCY_MASK_CONFIG } from './zmat-input-format-currency.config';
-import { ZmatInputFormatCurrencyHandler } from './zmat-input-format-currency.handler';
+import { CurrencyFormatConfig, CURRENCY_MASK_CONFIG } from './input-format-currency.config';
+import { InputFormatCurrencyHandler } from './input-format-currency.handler';
 
 export const CURRENCYMASKDIRECTIVE_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => ZmatInputFormatCurrencyDirective),
+    useExisting: forwardRef(() => InputFormatCurrencyDirective),
     multi: true
 };
 
 @Directive({
-    selector: '[libZmatCurrencyFormat]',
+    selector: '[libCurrencyFormat]',
     providers: [
         CURRENCYMASKDIRECTIVE_VALUE_ACCESSOR,
-        { provide: NG_VALIDATORS, useExisting: ZmatInputFormatCurrencyDirective, multi: true }
+        { provide: NG_VALIDATORS, useExisting: InputFormatCurrencyDirective, multi: true }
     ]
 })
-export class ZmatInputFormatCurrencyDirective implements AfterViewInit, ControlValueAccessor, DoCheck, OnInit, Validator {
+export class InputFormatCurrencyDirective implements AfterViewInit, ControlValueAccessor, DoCheck, OnInit, Validator {
 
     @Input() max: number;
     @Input() min: number;
     @Input() options: any = {};
 
-    inputHandler: ZmatInputFormatCurrencyHandler;
+    inputHandler: InputFormatCurrencyHandler;
     keyValueDiffer: KeyValueDiffer<any, any>;
 
     optionsTemplate = {
@@ -70,7 +70,7 @@ export class ZmatInputFormatCurrencyDirective implements AfterViewInit, ControlV
     }
 
     ngOnInit(): void {
-        this.inputHandler = new ZmatInputFormatCurrencyHandler(this.elementRef.nativeElement,
+        this.inputHandler = new InputFormatCurrencyHandler(this.elementRef.nativeElement,
           (Object as any).assign({}, this.optionsTemplate, this.options));
     }
 

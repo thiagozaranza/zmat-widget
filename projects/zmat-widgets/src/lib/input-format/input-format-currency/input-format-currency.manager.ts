@@ -1,4 +1,4 @@
-export class ZmatInputFormatCurrencyManagerManager {
+export class InputFormatCurrencyManagerManager {
 
   private aStoredRawValue: string;
 

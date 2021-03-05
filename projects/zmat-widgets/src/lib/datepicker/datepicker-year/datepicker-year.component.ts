@@ -22,7 +22,7 @@ export const _YEAR_FORMAT = {
 };
 
 @Component({
-  selector: 'datepicker-year',
+  selector: 'lib-datepicker-year',
   templateUrl: './datepicker-year.component.html',
   styleUrls: ['./datepicker-year.component.css'],
   providers: [
@@ -39,7 +39,7 @@ export class DatepickerYearComponent implements OnInit {
   public date = new FormControl();
 
   @Input() schema: IDatepickerSchema;
-  @Output() selected: EventEmitter<Moment> = new EventEmitter();
+  @Output() selected: EventEmitter<string> = new EventEmitter();
 
   constructor() {
     if (!this.schema) {
@@ -58,7 +58,7 @@ export class DatepickerYearComponent implements OnInit {
     event.preventDefault();
 
     if (event.key === 'Enter') {
-      this.selected.emit(this.date.value);
+      this.selected.emit(this.date.value.toISOString().slice(0, 4));
     }
   }
 
@@ -75,7 +75,7 @@ export class DatepickerYearComponent implements OnInit {
 
     datepicker.close();
 
-    this.selected.emit(ctrlValue);
+    this.selected.emit(ctrlValue.toISOString().slice(0, 4));
   }
 
   getPanelClasses(): string {
@@ -90,8 +90,6 @@ export class DatepickerYearComponent implements OnInit {
     } else {
       classes = this.schema.panelClass;
     }
-
-    console.log(classes.join(' '));
 
     return classes.join(' ');
   }

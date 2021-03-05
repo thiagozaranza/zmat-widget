@@ -18,33 +18,37 @@ export interface IGridSchema<T extends IModel> extends IPaginable<T> {
   columns: IGridColumnSchema<T>[];
   actions?: IGridActionSchema<T>[];
 }
-export interface IGridCellRender<T extends IModel> {
+export interface IGridRender<T extends IModel> {
   parent: GridTableComponent<T>;
+  schema: IGridItemSchema;
+  data: T;
+}
+export interface IGridCellRender<T extends IModel> extends IGridRender<T> {
   schema: IGridColumnSchema<T>;
-  data: T;
 }
 
-export interface IGridActionRender<T> {
+export interface IGridActionRender<T extends IModel> extends IGridRender<T> {
   schema: IGridActionSchema<T>;
-  data: T;
 }
 
-export interface IGridColumnSchema<T extends IModel> {
+export interface IGridItemSchema {
   title: string;
+}
+
+export interface IGridColumnSchema<T extends IModel> extends IGridItemSchema {
   field: string;
   ordenable?: boolean;
   editable?: boolean;
   format?: GridInputFormat;
-  render: new(parent: GridTableComponent<T>) => IGridCellRender<T>;
-  getData: (model: T) => string | number | boolean;
+  render: new(parent: GridTableComponent<T>) => IGridRender<T>;
+  getData: (model: T) => string;
   saveChangesHandler?: () => void;
 }
 
-export interface IGridActionSchema<T> {
-  title: string;
+export interface IGridActionSchema<T extends IModel> extends IGridItemSchema  {
   label: string;
   color: string;
   icon: string;
-  render: new() => IGridActionRender<T>;
+  render: new() => IGridRender<T>;
   action: (model: T) => void;
 }

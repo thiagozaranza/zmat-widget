@@ -56,8 +56,8 @@ export class MunicipioTableComponent implements OnInit {
           editable: true,
           format: GridInputFormat.CURRENCY,
           render: GridTdTextComponent,
-          getData(obj: Municipio): number {
-            return obj.id;
+          getData(obj: Municipio): string {
+            return obj.id + '';
           }
         },
         {
@@ -102,7 +102,7 @@ export class MunicipioTableComponent implements OnInit {
     this.selectionChanged.emit($event);
   }
 
-  err($event: HttpErrorResponse): void {
-    this.throwError.emit($event.message);
+  err($event: string): void {
+    this.throwError.emit($event);
   }
 }

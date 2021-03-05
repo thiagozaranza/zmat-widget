@@ -2,24 +2,24 @@ import { CommonModule, CurrencyPipe, registerLocaleData } from '@angular/common'
 import { LOCALE_ID, NgModule } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
-import { ZmatInputFomatCurrencyPipe } from './zmat-input-format-currency/zmat-input-format-currency.pipe';
-import { ZmatInputFormatCurrencyDirective } from './zmat-input-format-currency/zmat-input-format-currency.directive';
+import { InputFomatCurrencyPipe } from './input-format-currency/input-format-currency.pipe';
+import { InputFormatCurrencyDirective } from './input-format-currency/input-format-currency.directive';
 import ptBr from '@angular/common/locales/pt';
 
 registerLocaleData(ptBr);
 
 @NgModule({
   declarations: [
-    ZmatInputFormatCurrencyDirective,
-    ZmatInputFomatCurrencyPipe
+    InputFormatCurrencyDirective,
+    InputFomatCurrencyPipe
   ],
   imports: [
     CommonModule,
     FormsModule
   ],
   exports: [
-    ZmatInputFormatCurrencyDirective,
-    ZmatInputFomatCurrencyPipe
+    InputFormatCurrencyDirective,
+    InputFomatCurrencyPipe
   ],
   providers: [
     CurrencyPipe,
@@ -29,4 +29,4 @@ registerLocaleData(ptBr);
     }
   ]
 })
-export class ZmatInputFormatModule { }
+export class InputFormatModule { }

@@ -1,11 +1,22 @@
 import { IModel } from 'projects/zmat-widgets/src/lib/commons/service.schema';
+
+export interface MunicipioDTO {
+  id: number;
+  nome: string;
+  uf: string;
+}
 export class Municipio implements IModel {
 
-  constructor(
-    public id: number,
-    public nome: string,
-    public uf: string
-  ) { }
+  public id: number;
+  public nome: string;
+  public uf: string;
+
+  constructor(municipio: MunicipioDTO)
+  {
+    this.id = municipio.id;
+    this.nome = municipio.nome;
+    this.uf = municipio.uf;
+  }
 
   getId(): number {
     return this.id;

@@ -3,12 +3,13 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 
 @Pipe({
-  name: 'currencyFormat'
+  name: 'currencyFormater'
 })
-export class ZmatInputFomatCurrencyPipe implements PipeTransform {
+export class InputFomatCurrencyPipe implements PipeTransform {
+
     constructor(private currencyPipe: CurrencyPipe) { }
 
-    transform(value: number, locale: string, currencySymbol?: boolean, numberFormat: string = '1.2-2'): string {
+    transform(value: number, locale?: string, currencySymbol?: boolean, numberFormat: string = '1.2-2'): string {
         if (value) {
 
             let newValue: string;

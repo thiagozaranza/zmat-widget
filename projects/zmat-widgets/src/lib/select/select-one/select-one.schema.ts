@@ -1,6 +1,4 @@
-export interface SelectOneSchema {
+export interface ISelectOneSchema {
     label: string;
     placeholder: string;
-    getId: (item: any) => number;
-    getName: (item: any) => string;
-};
+}

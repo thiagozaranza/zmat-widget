@@ -1,14 +1,14 @@
-import { ZmatInputFormatCurrencyService } from './zmat-input-format-currency.service';
+import { InputFormatCurrencyService } from './input-format-currency.service';
 
-export class ZmatInputFormatCurrencyHandler {
+export class InputFormatCurrencyHandler {
 
-    private inputService: ZmatInputFormatCurrencyService;
+    private inputService: InputFormatCurrencyService;
     private onModelChange: (value: number) => void;
     private onModelTouched: () => void;
     private htmlInputElement: HTMLInputElement;
 
     constructor(htmlInputElement: HTMLInputElement, options: any) {
-        this.inputService = new ZmatInputFormatCurrencyService(htmlInputElement, options);
+        this.inputService = new InputFormatCurrencyService(htmlInputElement, options);
         this.htmlInputElement = htmlInputElement;
     }
 

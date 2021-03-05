@@ -32,7 +32,7 @@ export class MunicipioService implements IService<Municipio> {
   parsePaginatedResponse(response): IPaginatedResponse<Municipio> {
     return {
       total: response.data.total_results,
-      data: response.data.list.map(item => new Municipio(item.id, item.nome, item.uf))
+      data: response.data.list.map(item => new Municipio(item))
     };
   }
 

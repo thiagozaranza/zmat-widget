@@ -1,6 +1,7 @@
 import { AfterContentInit, Component, ViewChild } from '@angular/core';
+import { IDatepickerSchema, ISelectOneSchema } from 'projects/zmat-widgets/src/public-api';
 
-import { IDatepickerSchema } from 'projects/zmat-widgets/src/public-api';
+import { IModel } from 'projects/zmat-widgets/src/lib/commons/service.schema';
 import { Moment } from 'moment';
 import { Municipio } from 'src/app/modules/municipio/municipio';
 import { MunicipioTableComponent } from 'src/app/modules/municipio/municipio-table/municipio-table.component';
@@ -41,6 +42,11 @@ export class HomeIndexComponent implements AfterContentInit {
     panelClass: 'datepicker'
   };
 
+  public selectOneSchema: ISelectOneSchema = {
+    label: 'Estado',
+    placeholder: 'Selecione o estado'
+  }
+
   constructor(private toastService: ToastService) {
   }
 
@@ -59,16 +65,20 @@ export class HomeIndexComponent implements AfterContentInit {
     this.municipios = [$event];
   }
 
-  diaSelecionado($event: Moment): void {
-    this.toastService.textoDark($event.toISOString());
+  diaSelecionado($event: string): void {
+    this.toastService.textoDark($event);
   }
 
-  mesSelecionado($event: Moment): void {
-    this.toastService.textoDark($event.toISOString());
+  mesSelecionado($event: string): void {
+    this.toastService.textoDark($event);
   }
 
-  anoSelecionado($event: Moment): void {
-    this.toastService.textoDark($event.toISOString());
+  anoSelecionado($event: string): void {
+    this.toastService.textoDark($event);
+  }
+
+  ufSelecionada($event: IModel): void {
+    this.toastService.textoLight($event.getName());
   }
 
   throwError($event): void {

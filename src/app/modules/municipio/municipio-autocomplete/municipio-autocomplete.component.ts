@@ -13,7 +13,7 @@ export class MunicipioAutocompleteComponent implements OnInit {
 
   public schema: IAutocompleteSchema<Municipio>;
 
-  @Output() selectionChanged: EventEmitter<Municipio[]> = new EventEmitter();
+  @Output() selectionChanged: EventEmitter<Municipio> = new EventEmitter();
   @Output() throwError: EventEmitter<string> = new EventEmitter();
 
   constructor(private municipioService: MunicipioService) {

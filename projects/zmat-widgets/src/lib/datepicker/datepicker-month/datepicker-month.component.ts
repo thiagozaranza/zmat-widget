@@ -24,7 +24,7 @@ export const _MONTH_FORMAT = {
 };
 
 @Component({
-  selector: 'datepicker-month',
+  selector: 'lib-datepicker-month',
   templateUrl: './datepicker-month.component.html',
   styleUrls: ['./datepicker-month.component.css'],
   providers: [
@@ -41,7 +41,7 @@ export class DatepickerMonthComponent implements OnInit {
   public date = new FormControl();
 
   @Input() schema: IDatepickerSchema;
-  @Output() selected: EventEmitter<Moment> = new EventEmitter();
+  @Output() selected: EventEmitter<string> = new EventEmitter();
 
   constructor() {
     if (!this.schema) {
@@ -85,7 +85,7 @@ export class DatepickerMonthComponent implements OnInit {
 
     datepicker.close();
 
-    this.selected.emit(ctrlValue);
+    this.selected.emit(ctrlValue.toISOString().slice(0, 7));
   }
 
   getPanelClasses(): string {
@@ -100,8 +100,6 @@ export class DatepickerMonthComponent implements OnInit {
     } else {
       classes = this.schema.panelClass;
     }
-
-    console.log(classes.join(' '));
 
     return classes.join(' ');
   }

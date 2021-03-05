@@ -1,62 +1,59 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { MatSelect, MatSelectChange } from '@angular/material/select';
 
-import { MatSelect } from '@angular/material/select';
-import { SelectOneSchema } from './select-one.schema';
+import { IModel } from '../../commons/service.schema';
+import { ISelectOneSchema } from './select-one.schema';
 
 @Component({
   selector: 'lib-select-one',
   templateUrl: './select-one.component.html',
   styleUrls: ['./select-one.component.css']
 })
-export class SelectOneComponent implements OnInit, OnDestroy, AfterViewInit {
+export class SelectOneComponent<T extends IModel> implements OnInit, OnDestroy {
 
   private subscriptions = new Subscription();
 
-  @Input() schema: SelectOneSchema;
+  @Input() schema: ISelectOneSchema;
 
-  private _data = new BehaviorSubject<any[]>([]);
+  private aData = new BehaviorSubject<T[]>([]);
 
   @Input()
   set data(value) {
-    this._data.next(value.filter(item => item && item.id));
-  };
-
-  get data() {
-    return this._data.getValue();
+    this.aData.next(value.filter(item => item && item.getId()));
   }
 
-  private _value = new BehaviorSubject<any>({});
+  get data(): T[] {
+    return this.aData.getValue();
+  }
+
+  private aValue = new BehaviorSubject<T>(null);
 
   @Input()
   set value(value) {
-    this._value.next(value);
-  };
-
-  get value() {
-    return this._value.getValue();
+    this.aValue.next(value);
   }
 
-  @Output() changed: EventEmitter<any> = new EventEmitter();
+  get value(): T {
+    return this.aValue.getValue();
+  }
+
+  @Output() selected: EventEmitter<T> = new EventEmitter();
 
   @ViewChild(MatSelect, {static: true}) select: MatSelect;
 
   constructor() { }
 
-  public itemChanged(event)
+  public itemSelected(event: MatSelectChange): void
   {
-    this.changed.emit(event.value);
+    this.selected.emit(this.data.find(item => item.getId() === event.value));
   }
 
-  ngAfterViewInit() {
-
+  ngOnInit(): void {
+    this.aValue.subscribe(value => this.select.value = (value) ? value.getId() : null);
   }
 
-  ngOnInit() {
-    this._value.subscribe(value => this.select.value = (value)? value.id: null)
-  }
-
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
 }

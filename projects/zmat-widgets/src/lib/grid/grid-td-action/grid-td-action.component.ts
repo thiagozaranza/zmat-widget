@@ -1,6 +1,7 @@
 import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { IGridActionRender, IGridActionSchema } from '../grid.schema';
 
+import { GridTableComponent } from '../grid-table/grid-table.component';
 import { IModel } from '../../commons/service.schema';
 
 @Component({
@@ -11,5 +12,9 @@ import { IModel } from '../../commons/service.schema';
 export class GridTdActionComponent<T extends IModel> implements IGridActionRender<T> {
   @ViewChild(TemplateRef, {static: true}) template: TemplateRef<any>;
   schema: IGridActionSchema<T>;
+  parent: null;
   data: T;
+
+  constructor() {
+  }
 }

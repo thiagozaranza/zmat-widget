@@ -1,4 +1,4 @@
-import { CURRENCY_MASK_CONFIG, CurrencyFormatConfig } from '../zmat-input-format/zmat-input-format-currency/zmat-input-format-currency.config';
+import { CURRENCY_MASK_CONFIG, CurrencyFormatConfig } from '../input-format/input-format-currency/input-format-currency.config';
 import { DEFAULT_CURRENCY_CODE, NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
@@ -10,6 +10,7 @@ import { GridTableComponent } from './grid-table/grid-table.component';
 import { GridTdActionComponent } from './grid-td-action/grid-td-action.component';
 import { GridTdBoolComponent } from './grid-td-bool/grid-td-bool.component';
 import { GridTdTextComponent } from './grid-td-text/grid-td-text.component';
+import { InputFormatModule } from '../input-format/input-format.module';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -20,7 +21,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
-import { ZmatInputFormatModule } from '../zmat-input-format/zmat-input-format.module';
 
 export const CustomCurrencyMaskConfig: CurrencyFormatConfig = {
   align: 'right',
@@ -55,7 +55,7 @@ export const CustomCurrencyMaskConfig: CurrencyFormatConfig = {
     MatProgressSpinnerModule,
     MatSelectModule,
     FormsModule,
-    ZmatInputFormatModule
+    InputFormatModule
   ],
   exports: [
     GridTableComponent,

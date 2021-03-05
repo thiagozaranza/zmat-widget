@@ -9,15 +9,15 @@ import {
     Type,
     ViewContainerRef
 } from '@angular/core';
-import { IGridCellRender, IGridColumnSchema } from './grid.schema';
+import { IGridActionRender, IGridCellRender, IGridColumnSchema, IGridItemSchema, IGridRender } from './grid.schema';
 
 import { IModel } from '../commons/service.schema';
 
 // tslint:disable-next-line: directive-selector
 @Directive({selector: '[dynamicOutlet]'})
 export class DynamicOutletDirective<T extends IModel> implements OnChanges, OnDestroy {
-  @Input() dynamicOutlet: Type<IGridCellRender<T>>;
-  @Input() dynamicOutletSchema: IGridColumnSchema<T>;
+  @Input() dynamicOutlet: Type<IGridRender<T>>;
+  @Input() dynamicOutletSchema: IGridItemSchema;
   @Input() dynamicOutletData: T;
 
   private componentRef: ComponentRef<any> = null;

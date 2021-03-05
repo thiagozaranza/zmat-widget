@@ -1,11 +1,11 @@
-import { ZmatInputFormatCurrencyManagerManager } from './zmat-input-format-currency.manager';
+import { InputFormatCurrencyManagerManager } from './input-format-currency.manager';
 
-export class ZmatInputFormatCurrencyService {
+export class InputFormatCurrencyService {
 
-    private inputManager: ZmatInputFormatCurrencyManagerManager;
+    private inputManager: InputFormatCurrencyManagerManager;
 
     constructor(private htmlInputElement: any, private options: any) {
-        this.inputManager = new ZmatInputFormatCurrencyManagerManager(htmlInputElement);
+        this.inputManager = new InputFormatCurrencyManagerManager(htmlInputElement);
     }
 
     addNumber(keyCode: number): void {
