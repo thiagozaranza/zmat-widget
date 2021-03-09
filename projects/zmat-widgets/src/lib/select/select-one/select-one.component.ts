@@ -46,7 +46,10 @@ export class SelectOneComponent<T extends IModel> implements OnInit, OnDestroy {
 
   public itemSelected(event: MatSelectChange): void
   {
-    this.selected.emit(this.data.find(item => item.getId() === event.value));
+    const value: T = this.data.find(item => item.getId() === event.value);
+
+    this.schema.formGroup?.get(this.schema.formControlName).setValue(value.getId());
+    this.selected.emit(value);
   }
 
   ngOnInit(): void {

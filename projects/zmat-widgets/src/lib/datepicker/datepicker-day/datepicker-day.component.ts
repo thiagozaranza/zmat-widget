@@ -1,6 +1,6 @@
 import * as _moment from 'moment';
 
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { IDatepickerSchema, defaultDatepickerSchema } from '../datepicker.schema';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
@@ -36,7 +36,7 @@ export const _DAY_FORMAT = {
     {provide: MAT_DATE_FORMATS, useValue: _DAY_FORMAT},
   ]
 })
-export class DatepickerDayComponent implements OnInit {
+export class DatepickerDayComponent implements AfterViewInit {
 
   public date = new FormControl();
 
@@ -50,9 +50,10 @@ export class DatepickerDayComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void
+  ngAfterViewInit(): void
   {
     if (this.schema.value) {
+      this.schema.formGroup?.get(this.schema.formControlName).setValue(this.schema.value.toISOString().slice(0, 10));
       this.date.setValue(this.schema.value);
     }
   }
@@ -80,7 +81,10 @@ export class DatepickerDayComponent implements OnInit {
 
     datepicker.close();
 
-    this.selected.emit(ctrlValue.toISOString().slice(0, 10));
+    const value = ctrlValue.toISOString().slice(0, 10);
+
+    this.schema.formGroup?.get(this.schema.formControlName).setValue(value);
+    this.selected.emit(value);
   }
 
   getPanelClasses(): string {

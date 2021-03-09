@@ -15,7 +15,7 @@ import { MunicipioService } from '../municipio.service';
 import { ToastService } from 'projects/zmat-widgets/src/lib/toast/toast.service';
 
 @Component({
-  selector: 'app-municipio-table',
+  selector: 'app-municipio-grid',
   templateUrl: './municipio-table.component.html',
   styleUrls: ['./municipio-table.component.scss']
 })

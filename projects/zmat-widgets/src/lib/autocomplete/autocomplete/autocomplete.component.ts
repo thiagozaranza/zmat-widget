@@ -93,8 +93,25 @@ export class AutocompleteComponent<T extends IModel> implements OnInit {
       .filter(value => value.getName() === $event.option.value)
       .pop();
 
-    console.log(selectedOption);
+    this.schema.formGroup?.get(this.schema.formControlName).setValue(selectedOption.getId());
 
     this.selectionChanged.emit(selectedOption);
+  }
+
+  public getPanelClasses(): string {
+
+    let classes = [];
+
+    if (!this.schema.panelClass) {
+      return;
+    }
+
+    if (typeof this.schema.panelClass === 'string') {
+      classes.push(this.schema.panelClass);
+    } else {
+      classes = this.schema.panelClass;
+    }
+
+    return classes.join(' ');
   }
 }

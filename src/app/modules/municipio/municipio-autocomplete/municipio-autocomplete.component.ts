@@ -1,6 +1,7 @@
 import { AutocompleteLoadingModeType, IAutocompleteSchema } from 'projects/zmat-widgets/src/lib/autocomplete/autocomplete.schema';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
+import { FormGroup } from '@angular/forms';
 import { Municipio } from '../municipio';
 import { MunicipioService } from '../municipio.service';
 
@@ -12,6 +13,9 @@ import { MunicipioService } from '../municipio.service';
 export class MunicipioAutocompleteComponent implements OnInit {
 
   public schema: IAutocompleteSchema<Municipio>;
+
+  @Input() formControlName: string;
+  @Input() formGroup: FormGroup;
 
   @Output() selectionChanged: EventEmitter<Municipio> = new EventEmitter();
   @Output() throwError: EventEmitter<string> = new EventEmitter();
@@ -35,6 +39,8 @@ export class MunicipioAutocompleteComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.schema.formGroup =this.formGroup;
+    this.schema.formControlName = this.formControlName;
   }
 
   changeSelection($event): void {

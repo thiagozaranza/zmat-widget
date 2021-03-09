@@ -1,8 +1,9 @@
 import { AfterContentInit, Component, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { IDatepickerSchema, ISelectOneSchema } from 'projects/zmat-widgets/src/public-api';
+import { UFs, Uf } from 'src/app/modules/uf/uf';
 
 import { IModel } from 'projects/zmat-widgets/src/lib/commons/service.schema';
-import { Moment } from 'moment';
 import { Municipio } from 'src/app/modules/municipio/municipio';
 import { MunicipioTableComponent } from 'src/app/modules/municipio/municipio-table/municipio-table.component';
 import { ToastService } from 'projects/zmat-widgets/src/lib/toast/toast.service';
@@ -18,12 +19,22 @@ export class HomeIndexComponent implements AfterContentInit {
 
   public municipios: Municipio[] = [];
 
+  public homeForm = this.fb.group({
+    uf: [''],
+    dia: [''],
+    mes: [''],
+    ano: [''],
+    municipio: ['']
+  });
+
   public datepickerDaySchema: IDatepickerSchema = {
     placeholder: 'Selecione um dia',
     value: new Date(),
     min: new Date('01/01/2000'),
     max: new Date(),
-    panelClass: 'datepicker'
+    panelClass: ['datepicker', 'mat-elevation-z2'],
+    formControlName: 'dia',
+    formGroup: this.homeForm
   };
 
   public datepickerMonthSchema: IDatepickerSchema = {
@@ -31,7 +42,9 @@ export class HomeIndexComponent implements AfterContentInit {
     value: new Date(),
     min: new Date('01/01/2000'),
     max: new Date(),
-    panelClass: 'datepicker'
+    panelClass: 'datepicker',
+    formControlName: 'mes',
+    formGroup: this.homeForm
   };
 
   public datepickerYearSchema: IDatepickerSchema = {
@@ -39,19 +52,19 @@ export class HomeIndexComponent implements AfterContentInit {
     value: new Date(),
     min: new Date('01/01/2000'),
     max: new Date(),
-    panelClass: 'datepicker'
+    panelClass: 'datepicker',
+    formControlName: 'ano',
+    formGroup: this.homeForm
   };
 
-  public selectOneSchema: ISelectOneSchema = {
-    label: 'Estado',
-    placeholder: 'Selecione o estado'
-  }
-
-  constructor(private toastService: ToastService) {
+  constructor(
+    private fb: FormBuilder,
+    private toastService: ToastService) {
   }
 
   ngAfterContentInit(): void {
     // this.grid.table.paginate({ page: 2 });
+    this.homeForm.valueChanges.subscribe(value => console.log(value));
   }
 
   municipiosSelecionados($event: Municipio[]): void {

@@ -12,6 +12,7 @@ import { UfModule } from 'src/app/modules/uf/uf.module';
     CommonModule,
     MunicipioModule,
     DatepickerModule,
+    SelectModule,
     UfModule
   ]
 })

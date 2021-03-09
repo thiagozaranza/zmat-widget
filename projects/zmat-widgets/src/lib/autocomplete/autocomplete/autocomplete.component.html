@@ -1,4 +1,4 @@
-<mat-form-field appearance="outline">
+<mat-form-field appearance="outline" [class]="getPanelClasses()">
   <mat-label>{{ schema.label }}</mat-label>
   <mat-progress-bar mode="indeterminate" [class.show]="loading" [class.hide]="!loading"></mat-progress-bar>
   <input type="text"

@@ -1,8 +1,12 @@
+import { FormGroup } from '@angular/forms';
+
 export interface IDatepickerSchema {
   placeholder?: string;
   value?: Date;
   min?: Date;
   max?: Date;
+  formControlName?: string;
+  formGroup?: FormGroup;
   panelClass?: string | string[];
 }
 

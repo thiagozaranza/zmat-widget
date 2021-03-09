@@ -1,28 +1,33 @@
 <div style="padding: 20px;">
+  <pre>{{ homeForm.get('municipio')?.value }}</pre>
+  <pre>{{ homeForm.get('uf')?.value }}</pre>
+  <pre>{{ homeForm.get('dia')?.value }}</pre>
+  <pre>{{ homeForm.get('mes')?.value }}</pre>
+  <pre>{{ homeForm.get('ano')?.value }}</pre>
   <div class="row">
     <div class="col-md-2">
-      <app-municipio-autocomplete #cmpAutocompleteMunicipio
+      <app-municipio-autocomplete [formGroup]="homeForm" formControlName='municipio'
         (selectionChanged)="municipioSelecionado($event)"
         (throwError)="throwError($event)">
       </app-municipio-autocomplete>
     </div>
     <div class="col-md-2">
-      <app-uf-select (selected)="ufSelecionada($event)"></app-uf-select>
+      <app-uf-select [formGroup]="homeForm" formControlName='uf'></app-uf-select>
     </div>
     <div class="col-md-2">
-      <lib-datepicker-day [schema]="datepickerDaySchema" (selected)="diaSelecionado($event)"></lib-datepicker-day>
+      <lib-datepicker-day formControlName='dia' [schema]="datepickerDaySchema" (selected)="diaSelecionado($event)"></lib-datepicker-day>
     </div>
     <div class="col-md-2">
-      <lib-datepicker-month [schema]="datepickerMonthSchema" (selected)="mesSelecionado($event)"></lib-datepicker-month>
+      <lib-datepicker-month formControlName='mes' [schema]="datepickerMonthSchema" (selected)="mesSelecionado($event)"></lib-datepicker-month>
     </div>
     <div class="col-md-2">
-      <lib-datepicker-year [schema]="datepickerYearSchema" (selected)="anoSelecionado($event)"></lib-datepicker-year>
+      <lib-datepicker-year formControlName='ano'  [schema]="datepickerYearSchema" (selected)="anoSelecionado($event)"></lib-datepicker-year>
     </div>
   </div>
-  <app-municipio-table #cmpGridMunicipio
+  <app-municipio-grid #cmpGridMunicipio
     (selectionChanged)="municipiosSelecionados($event)"
     (throwError)="throwError($event)">
-  </app-municipio-table>
+  </app-municipio-grid>
   <ul>
     <li *ngFor="let index of municipios">{{ index.nome}}</li>
   </ul>

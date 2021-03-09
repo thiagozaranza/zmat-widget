@@ -1,6 +1,6 @@
 import * as _moment from 'moment';
 
-import { Component, Directive, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, Directive, EventEmitter, Input, Output } from '@angular/core';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { IDatepickerSchema, defaultDatepickerSchema } from '../datepicker.schema';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
@@ -36,7 +36,7 @@ export const _MONTH_FORMAT = {
     {provide: MAT_DATE_FORMATS, useValue: _MONTH_FORMAT},
   ]
 })
-export class DatepickerMonthComponent implements OnInit {
+export class DatepickerMonthComponent implements AfterViewInit {
 
   public date = new FormControl();
 
@@ -49,9 +49,10 @@ export class DatepickerMonthComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void
+  ngAfterViewInit(): void
   {
     if (this.schema.value) {
+      this.schema.formGroup?.get(this.schema.formControlName).setValue(this.schema.value.toISOString().slice(0, 7));
       this.date.setValue(moment(this.schema.value));
     }
   }
@@ -85,7 +86,10 @@ export class DatepickerMonthComponent implements OnInit {
 
     datepicker.close();
 
-    this.selected.emit(ctrlValue.toISOString().slice(0, 7));
+    const value = ctrlValue.toISOString().slice(0, 7);
+
+    this.schema.formGroup?.get(this.schema.formControlName).setValue(value);
+    this.selected.emit(value);
   }
 
   getPanelClasses(): string {
